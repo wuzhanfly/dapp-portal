@@ -40,7 +40,7 @@
       </div>
       <div class="withdrawal-line-separator"></div>
       <div class="withdrawal-line-bottom">
-        <div>Withdrawal is available for claiming on the {{ eraNetwork.l1Network?.name }} network</div>
+        <div>{{ $t("transaction.withdrawalAvailable", { network: eraNetwork.l1Network?.name }) }}</div>
         <CommonButton variant="primary" class="withdrawal-claim-button">{{ $t("transaction.goToClaim") }}</CommonButton>
       </div>
     </div>

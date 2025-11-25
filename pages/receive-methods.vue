@@ -5,8 +5,8 @@
     <div class="space-y-4">
       <CommonCardWithLineButtons>
         <DestinationItem
-          label="View address"
-          :description="`Receive from another ${destinations.era.label} account`"
+          :label="$t('assets.viewYourAddress')"
+          :description="$t('assets.receiveTokens', { network: destinations.era.label })"
           as="RouterLink"
           :to="{ name: 'receive' }"
         >
@@ -18,8 +18,8 @@
       <CommonCardWithLineButtons>
         <DestinationItem
           v-if="eraNetwork.l1Network"
-          label="Official bridge"
-          :description="`Receive from your ${destinations.ethereum.label} account`"
+          :label="$t('assets.officialBridge')"
+          :description="$t('assets.receiveFromYourNetworkAccount', { network: destinations.ethereum.label })"
           :icon-url="destinations.ethereum.iconUrl"
           as="RouterLink"
           :to="{ name: 'bridge', query: $route.query }"
@@ -27,8 +27,8 @@
       </CommonCardWithLineButtons>
       <CommonCardWithLineButtons v-if="isTestnet">
         <DestinationItem
-          label="Faucet"
-          description="Receive testnet funds"
+          :label="$t('assets.faucet')"
+          :description="$t('assets.receiveTestnetFunds')"
           icon-url="/img/faucet.svg"
           as="a"
           href="https://docs.zksync.io/build/tooling/network-faucets.html"
@@ -38,8 +38,8 @@
       </CommonCardWithLineButtons>
       <CommonCardWithLineButtons v-if="isMainnet && eraNetwork.displaySettings?.showPartnerLinks">
         <DestinationItem
-          label="Top-up with cash"
-          description="Buy tokens using a card or another method for fiat"
+          :label="$t('assets.topUpWithCash')"
+          :description="$t('assets.buyTokens')"
           as="a"
           href="https://zksync.dappradar.com/ecosystem?category=non_dapps_on_off_ramps"
           target="_blank"
@@ -54,8 +54,8 @@
       </CommonCardWithLineButtons>
       <CommonCardWithLineButtons v-if="isMainnet && eraNetwork.displaySettings?.showPartnerLinks">
         <DestinationItem
-          label="Bridge from other networks"
-          description="Explore ecosystem of third party bridges"
+          :label="$t('assets.bridgeFromOtherNetworks')"
+          :description="$t('assets.exploreEcosystem')"
           as="a"
           href="https://zksync.dappradar.com/ecosystem?category=defi_bridge"
           target="_blank"

@@ -6,16 +6,16 @@
     class="mb-block-padding-1/2 sm:mb-block-gap"
   >
     <p>
-      {{ eraNetwork.name }} will be shutdown on March 31st. Please use
+      {{ $t("network.deprecationAlert1", { network: eraNetwork.name }) }}
       <NuxtLink :to="getNetworkUrl(recommendedNetwork!, route.fullPath)" class="underline underline-offset-2">{{
         recommendedNetwork!.name
       }}</NuxtLink>
-      instead. For more info see the
+      {{ $t("network.deprecationAlert2") }} {{ $t("network.forMoreInfo") }}
       <a
         class="underline underline-offset-2"
         href="https://github.com/zkSync-Community-Hub/zksync-developers/discussions/228"
         target="_blank"
-        >announcement</a
+        >{{ $t("network.announcement") }}</a
       >
       .
     </p>

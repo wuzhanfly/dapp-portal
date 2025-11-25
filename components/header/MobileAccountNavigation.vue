@@ -74,8 +74,8 @@
         </CommonCardWithLineButtons>
         <CommonCardWithLineButtons class="mt-block-padding-1/2">
           <DestinationItem
-            label="FAQ"
-            description="Find tutorials and answers to the most common questions"
+            :label="$t('help.faq')"
+            :description="$t('help.faqDes')"
             as="a"
             href="https://matterlabs.gitbook.io/zksync-community-hub/support/faq"
             target="_blank"
@@ -91,8 +91,8 @@
         </CommonCardWithLineButtons>
         <CommonCardWithLineButtons class="mt-block-padding-1/2">
           <DestinationItem
-            label="Official Documentation"
-            description="Developer resources and technical ZKsync documentation"
+            :label="$t('help.officialDocumentation')"
+            :description="$t('help.officialDocumentationDes')"
             as="a"
             href="https://era.zksync.io"
             target="_blank"

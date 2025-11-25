@@ -1,11 +1,11 @@
 <template>
   <CommonModal :opened="!eraNetwork.l1Network" :closable="false" title="Deposit unavailable">
     <p class="leading-normal">
-      Deposit is not available on <span class="font-medium">{{ eraNetwork.name }}</span> since it doesn't have L1
-      network
+      {{ $t("transaction.depositUnavailable") }} <span class="font-medium">{{ eraNetwork.name }}</span>
+      {{ $t("transaction.sinceNotHaveL1Network") }}
     </p>
     <CommonButton as="RouterLink" :to="{ name: 'assets' }" replace variant="primary" class="mt-4 w-full">
-      Go to Assets page
+      {{ $t("bridge.goToAssets") }}
     </CommonButton>
   </CommonModal>
 </template>

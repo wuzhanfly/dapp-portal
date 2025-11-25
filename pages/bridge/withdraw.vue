@@ -2,7 +2,7 @@
   <ModalTransactionWithdrawalUnavailable />
 
   <div v-if="withdrawalsDisabled">
-    <PageTitle>Bridge</PageTitle>
+    <PageTitle>{{ $t("common.bridge") }}</PageTitle>
     <CommonAlert variant="warning" :icon="ExclamationTriangleIcon" class="mb-block-gap">
       <p>
         {{ $t("bridge.withdrawDisabled", { network: eraNetwork.name }) }}

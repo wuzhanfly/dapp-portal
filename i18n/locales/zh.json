@@ -19,6 +19,7 @@
     "edit": "编辑",
     "copy": "复制",
     "copied": "已复制",
+    "copyAddress": "复制地址",
     "addressCopied": "地址已复制",
     "change": "更改",
     "loading": "加载中...",
@@ -53,7 +54,12 @@
     "contact": "联系",
     "privacy": "隐私",
     "terms": "条款",
-    "faq": "常见问题"
+    "faq": "常见问题",
+    "explorer": "浏览器",
+    "logout": "断开连接",
+    "backToBridge": "返回跨链桥",
+    "network": "网络",
+    "portal": "门户"
   },
   "assets": {
     "title": "资产",
@@ -71,7 +77,13 @@
     "topUpWithCash": "现金充值",
     "buyTokens": "使用银行卡或其他法币方式购买代币",
     "bridgeFromOtherNetworks": "从其他网络跨链",
-    "exploreEcosystem": "探索第三方跨链桥生态系统"
+    "exploreEcosystem": "探索第三方跨链桥生态系统",
+    "proceedTo": "前往",
+    "pageToAddBalance": "页面以向您的账户添加余额",
+    "receiveFromNetwork2": "您有 {balanceLen} 个代币，价值 {balanceTotal}，可从 {network} 接收",
+    "officialBridge": "官方跨链桥",
+    "receiveFromYourNetworkAccount": "从您的 {network} 账户接收",
+    "sendToAnotherAccountOn": "发送到 {network} 上的另一个账户"
   },
   "transfers": {
     "connectToView": "连接钱包以查看您在 {network} 上的最新转账",
@@ -95,7 +107,19 @@
     "upgradeInformation": "升级信息页面",
     "withdrawDisabled": "从 {network} 的跨链功能因系统升级暂时禁用，预计将于 6月7日 15:00 UTC 完成。请稍后重试。有关详细信息，请访问",
     "bridgeTo": "跨链到 {network}",
-    "bridgeNow": "立即跨链"
+    "bridgeNow": "立即跨链",
+    "walletWarning": "钱包警告",
+    "confirmTransaction":"确认交易",
+    "from": "从",
+    "to": "至",
+    "toYourAccount": "至您的账户",
+    "networkChanged": "已自动更改所选网络",
+    "sinceLastUse": "自您上次使用 ZKsync 门户以来。",
+    "optionalSettings": "可选设置",
+    "doNotSwitchNetworkAutomatically": "不要自动切换网络",
+    "doNotShowThisWarning": "不再显示此警告",
+    "returnTo": "返回 {network}",
+    "continueOn": "继续在 {network} 上"
   },
   "onRamp": {
     "buyCrypto": "购买加密货币",
@@ -110,7 +134,24 @@
     "fee": "手续费",
     "totalCost": "总费用",
     "redirectingInSeconds": "{seconds} 秒后将重定向返回",
-    "clickToGoBack": "点击返回"
+    "clickToGoBack": "点击返回",
+    "orderCompleted": "订单成功完成！",
+    "youHaveSuccessfullyReceived": "您已成功收到",
+    "addFunds": "添加资金",
+    "youPay": "您支付 (美元)",
+    "inputNotValidNumber": "输入不是有效的数字。",
+    "addFundsNotice": "添加 $30 以上以解锁更多提供商选项。",
+    "youReceive": "您将收到",
+    "errorOccurred": "发生错误。请再试一次。",
+    "connectWalletToContinue": "连接钱包以继续",
+    "youHaveActiveTransactions": "您有 {len} 笔活跃交易。",
+    "purchasingTokenPurchase": "正在购买 {tokenPurchase}",
+    "swappingEthTo": "正在将 ETH 兑换为 {symbol}",
+    "tryAgain": "再试一次",
+    "cancel": "取消",
+    "paymentMethods": "支付方式",
+    "noQuotesAvailable": "没有可用的报价",
+    "transactionFailed": "交易失败"
   },
   "transaction": {
     "notFound": "交易未找到",
@@ -163,7 +204,70 @@
     "incorrectNetwork": "钱包中选择了错误的网络",
     "changeNetworkTo": "将钱包网络切换到 {network}",
     "changeNetworkManuallyTo": "在您的 {walletName} 钱包中手动切换到 {network} 网络",
-    "failed": "失败"
+    "failed": "失败",
+    "toAnotherAccount": "至另一个账户",
+    "checkingAllowanceError": "检查授权状态错误: {message}",
+    "allowanceApprovalError": "授权审批错误: {message}",
+    "insufficient": "余额不足",
+    "balanceOn": "的余额",
+    "toCoverTheFee": "以支付费用",
+    "weRecommendHavingAtLeast": "我们建议至少持有",
+    "on": "在",
+    "forDeposit": "用于存款",
+    "allowanceApproved": "{token} 授权已批准",
+    "approve": "授权 {token}",
+    "viewOnExplorer": "在浏览器中查看",
+    "underline1": "在存款之前，您需要授权我们的桥接使用指定金额。",
+    "underline2": "您可以存入最多",
+    "underline3": "而无需重新授权",
+    "learnMore": "了解更多",
+    "processing": "处理中",
+    "exceedsMaxAmountError": "输入的金额高于推荐的最大金额。这意味着您的交易可能会失败。",
+    "continueButtonDisabledError1": "费用自上次估算以来已更改。不足",
+    "continueButtonDisabledError2": "余额以支付交易费用",
+    "goBack": "返回",
+    "gettingTokensError": "获取代币错误: {message}",
+    "gettingBalancesError": "获取余额错误: {message}",
+    "tokenCustomBridgeAlertWarning": "跨链的 {symbol1} ({symbol2}) 可用，但与原生 {symbol3} 不同。",
+    "walletWarning1": "在向您的账户添加资金之前，请确保您的钱包支持 {network} 网络。",
+    "walletWarning2": "。请查看支持钱包的列表",
+    "walletWarning3": "网站。",
+    "buttonContinue": "我明白了，继续前往桥",
+    "disableWalletWarning": "不再显示此警告",
+    "momentNoTransfers": "目前您没有任何正在进行的转账在",
+    "depositUnavailable": "存款不可用在",
+    "sinceNotHaveL1Network": "上不可用存款，因为它没有 L1 网络",
+    "withdrawalUnavailable": "提款不可用在",
+    "customBridgeAlert": "ZKsync Portal不支持桥接{symbol}。",
+    "customBridgeLabel": "使用第三方网桥以在{network}上获得原生{symbol}。",
+    "copyTxHash": "复制交易哈希",
+    "yourAccount": "您的账户 {address}",
+    "withdrawalAvailable": "提款可在{network}网络上提取",
+    "transactionFailed1": "存款交易在",
+    "transactionFailed2": "您的资金仍然在您的钱包中，未被桥接。",
+    "transactionFailed3": "您的资金将在交易在",
+    "transactionFailed4": "上提交后可用",
+    "transactionFailed5": "您可以关闭此页面。",
+    "transactionReceive1": "请确保资金从",
+    "transactionReceive2": "上的账户发送，否则可能会导致资金永久丢失。",
+    "yourAddress": "您的{ network }地址",
+    "withdrawalClaimRequired": "需要提款申请",
+    "confirmTransaction": "确认交易",
+    "withdrawalFinalizationWarning1": "大约在～之后，",
+    "withdrawalFinalizationWarning2": "~5小时以上的提款延迟",
+    "withdrawalFinalizationWarning3": "请返回此门户以在以太坊上提取您的资金。提取将需要支付以太坊交易费用。您也可以选择使用第三方桥接来提取资金，风险自负。",
+    "withdrawalFinalizationWarning4": "在{network}上执行交易后，您需要提取资金，这需要在{network}上支付另一笔交易费用。",
+    "withdrawalBtn": "我明白了，继续提取",
+    "withdrawalManualFinalizationRequired1": "您将在大约5小时以上的提款延迟后能够申请提款。",
+    "withdrawalManualFinalizationRequired2": "您将在大约5小时以上的提款延迟后收到资金。",
+    "sixHours": "6+小时",
+    "almostInstant": "几乎即时",
+    "enoughBalanceForTransaction1": "{message} 余额不足",
+    "enoughBalanceForTransaction2": "支付交易费用的余额不足。",
+    "completed1": "您的资金将在",
+    "completed2": "目标地址",
+    "completed3": "交易在",
+    "completed4": "上提交后可用。"
   },
   "auth": {
     "authenticationRequired": "需要认证",
@@ -201,7 +305,8 @@
     "insufficientBalance": "余额不足",
     "invalidAddress": "无效地址",
     "unknownError": "发生未知错误",
-    "tryAgain": "请重试"
+    "tryAgain": "请重试",
+    "loadingTransfersError": "加载转账错误: {errorMsg}"
   },
   "wallet": {
     "connect": "连接钱包",
@@ -219,7 +324,12 @@
     "mainnet": "主网",
     "testnet": "测试网",
     "network": "网络",
-    "switchNetwork": "切换网络"
+    "switchNetwork": "切换网络",
+    "deprecationAlert1": "{network}将于3月31日停用。请使用  ",
+    "deprecationAlert2": "替代.",
+    "forMoreInfo": "如需更多信息，请参阅",
+    "announcement": "公告",
+    "noChainsFound": "未找到与 {search} 相关的链"
   },
   "success": {
     "transactionSuccess": "交易成功",
@@ -250,7 +360,8 @@
     "withoutApproving": "而无需重新授权",
     "learnMore": "了解更多",
     "approvalRequired": "授权审批需要",
-    "waitingForApproval": "等待授权审批确认中"
+    "waitingForApproval": "等待授权审批确认中",
+    "approving": "正在授权..."
   },
   "timer": {
     "hours": "{count} 小时",
@@ -266,6 +377,7 @@
   },
   "mobileMenu": {
     "chooseNetwork": "选择网络",
+    "menu": "菜单",
     "theme": "主题",
     "darkMode": "深色模式",
     "lightMode": "浅色模式"
@@ -281,5 +393,13 @@
   },
   "nativeBridge": {
     "onlyNativeAllowed": "仅允许 {token} 用于从 {direction} 跨链"
+  },
+  "help": {
+    "title": "帮助",
+    "discordDes": "获取支持，关注公告，与社区互动",
+    "faq": "常见问题解答",
+    "faqDes": "查找教程和最常见问题的答案",
+    "officialDocumentation": "官方文档",
+    "officialDocumentationDes": "开发者资源和技术 ZKsync 文档"
   }
 }

@@ -7,17 +7,17 @@
         class="mb-2"
         @try-again="eraWalletStore.setCorrectNetwork"
       >
-        Network change error: {{ switchingNetworkError.message }}
+        {{ $t("ethereumTransaction.networkChangeError", { message: switchingNetworkError.message }) }}
       </CommonErrorBlock>
     </transition>
 
     <div v-if="buttonStep === 'connect'" class="transaction-footer-row">
       <CommonButton variant="primary" :disabled="isConnectingWallet" class="w-full" @click="onboardStore.openModal">
-        Connect wallet
+        {{ $t("common.connectWallet") }}
       </CommonButton>
     </div>
     <div v-if="buttonStep === 'network'" class="transaction-footer-row">
-      <CommonButtonTopInfo>Incorrect network selected in your wallet</CommonButtonTopInfo>
+      <CommonButtonTopInfo>{{ $t("transaction.incorrectNetwork") }}</CommonButtonTopInfo>
       <CommonButton
         v-if="connectorName !== 'WalletConnect'"
         type="submit"
@@ -26,10 +26,10 @@
         class="w-full"
         @click="eraWalletStore.setCorrectNetwork"
       >
-        Change wallet network to {{ eraNetwork.name }}
+        {{ $t("transaction.changeNetworkTo", { network: eraNetwork.name }) }}
       </CommonButton>
       <CommonButton v-else disabled variant="primary" class="w-full">
-        Change network manually to {{ eraNetwork.name }} in your {{ walletName }} wallet
+        {{ $t("transaction.changeNetworkManuallyTo", { network: eraNetwork.name, walletName }) }}
       </CommonButton>
     </div>
     <div v-else-if="buttonStep === 'continue'" class="transaction-footer-row">

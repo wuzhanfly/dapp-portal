@@ -6,7 +6,7 @@
       <CommonCardWithLineButtons size="sm">
         <DestinationItem
           v-bind="destinations.era"
-          :label="`Send to another account on ${destinations.era.label}`"
+          :label="$t('transaction.sendToAnotherAccountOn', { network: destinations.era.label })"
           as="RouterLink"
           :to="{ name: 'send', query: $route.query }"
         />
@@ -15,15 +15,15 @@
         <DestinationItem
           v-if="eraNetwork.l1Network"
           v-bind="destinations.ethereum"
-          :label="`Bridge to ${destinations.ethereum.label}`"
+          :label="$t('transaction.bridgeTo', { network: destinations.ethereum.label })"
           as="RouterLink"
           :to="{ name: 'bridge-withdraw', query: $route.query }"
         />
       </CommonCardWithLineButtons>
       <CommonCardWithLineButtons v-if="eraNetwork.displaySettings?.showPartnerLinks">
         <DestinationItem
-          :label="`Bridge to other networks`"
-          :description="`Explore ecosystem of third party bridges`"
+          :label="$t('assets.bridgeFromOtherNetworks')"
+          :description="$t('assets.exploreEcosystem')"
           :icon="ArrowTopRightOnSquareIcon"
           as="a"
           href="https://zksync.dappradar.com/ecosystem?category=defi_bridge"

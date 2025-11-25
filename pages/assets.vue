@@ -76,9 +76,9 @@
                 {{ $t("assets.noBalances", { network: destinations.era.label }) }}
               </div>
               <span v-if="eraNetwork.l1Network" class="mt-1.5 inline-block">
-                Proceed to
-                <NuxtLink class="link" :to="{ name: 'receive-methods' }">{{ $t("assets.addFunds") }}</NuxtLink> page to
-                add balance to your account
+                {{ $t("assets.proceedTo") }}
+                <NuxtLink class="link" :to="{ name: 'receive-methods' }">{{ $t("assets.addFunds") }}</NuxtLink>
+                {{ $t("assets.pageToAddBalance") }}
               </span>
             </CommonEmptyBlock>
           </template>

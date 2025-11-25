@@ -1,5 +1,5 @@
 <template>
-  <HeaderMobileNavigation v-model:opened="modalOpened" title="Menu">
+  <HeaderMobileNavigation v-model:opened="modalOpened" :title="$t('mobileMenu.menu')">
     <transition v-bind="TabsTransition" mode="out-in">
       <div v-if="openedTab === 'main'">
         <TypographyCategoryLabel size="sm" :padded="false" class="mb-4">{{
@@ -42,14 +42,14 @@
               </DestinationIconContainer>
             </template>
           </DestinationItem>
-          <DestinationItem label="Assets" as="RouterLink" :to="{ name: 'assets' }" size="sm">
+          <DestinationItem :label="$t('common.assets')" as="RouterLink" :to="{ name: 'assets' }" size="sm">
             <template #image>
               <DestinationIconContainer>
                 <WalletIcon aria-hidden="true" />
               </DestinationIconContainer>
             </template>
           </DestinationItem>
-          <DestinationItem label="Transfers" as="RouterLink" :to="{ name: 'transfers' }" size="sm">
+          <DestinationItem :label="$t('common.transfers')" as="RouterLink" :to="{ name: 'transfers' }" size="sm">
             <template #image>
               <DestinationIconContainer>
                 <ArrowsRightLeftIcon aria-hidden="true" />
@@ -57,7 +57,7 @@
             </template>
             <template #label>
               <div class="flex items-center gap-2">
-                <span>Transfers</span>
+                <span>{{ $t("common.transfers") }}</span>
                 <CommonBadge v-if="withdrawalsAvailableForClaiming.length">
                   {{ withdrawalsAvailableForClaiming.length }}
                 </CommonBadge>
@@ -66,10 +66,10 @@
           </DestinationItem>
         </CommonCardWithLineButtons>
 
-        <TypographyCategoryLabel size="sm">Theme</TypographyCategoryLabel>
+        <TypographyCategoryLabel size="sm">{{ $t("mobileMenu.theme") }}</TypographyCategoryLabel>
         <CommonCardWithLineButtons>
           <DestinationItem
-            :label="selectedColorMode === 'dark' ? 'Dark mode' : 'Light mode'"
+            :label="selectedColorMode === 'dark' ? $t('mobileMenu.darkMode') : $t('mobileMenu.lightMode')"
             size="sm"
             @click="switchColorMode()"
           >
@@ -85,7 +85,7 @@
       <div v-else-if="openedTab === 'network'">
         <div class="mb-block-gap flex items-center gap-block-padding-1/2">
           <CommonButtonBack size="sm" @click="openedTab = 'main'" />
-          <span class="text-lg">Choose network</span>
+          <span class="text-lg">{{ $t("mobileMenu.chooseNetwork") }}</span>
         </div>
         <CommonCardWithLineButtons>
           <DestinationItem

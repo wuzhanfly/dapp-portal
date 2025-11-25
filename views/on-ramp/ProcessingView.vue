@@ -6,7 +6,7 @@
           <CommonSpinner v-if="purchaseStepStatusActive" class="-ml-1 mr-3 size-5" variant="text-color" />
           <CheckIcon v-if="purchaseStepStatusComplete" class="mr-2 h-4 w-4" />
           <ExclamationCircleIcon v-if="purchaseStepStatusIncomplete" class="mr-2 h-4 w-4" />
-          <span class="font-bold">Purchasing {{ tokenPurchase }}</span>
+          <span class="font-bold">{{ $t("onRamp.purchasingTokenPurchase", { tokenPurchase }) }}</span>
         </div>
         <div v-if="orderStatus === 'STOPPED' && !inProgress">
           <CommonButton size="xs" variant="cancel" @click="removeTransaction"
@@ -29,7 +29,7 @@
           <CommonSpinner v-if="swapStepStatusActive" class="-ml-1 mr-3 size-5" variant="text-color" />
           <CheckIcon v-if="swapStepStatusComplete" class="mr-2 h-4 w-4" />
           <ExclamationCircleIcon v-if="swapStepStatusIncomplete" class="mr-2 h-4 w-4" />
-          <span class="font-bold">Swapping ETH to {{ order.receive.token.symbol }}</span>
+          <span class="font-bold">{{ $t("onRamp.swappingEthTo", { symbol: order.receive.token.symbol }) }}</span>
         </div>
       </div>
       <div v-if="order && !!order.steps[1]" class="mt-6">
@@ -44,8 +44,8 @@
       </div>
     </div>
     <div v-if="orderStatus === 'STOPPED' && !inProgress" class="flex items-center gap-2">
-      <CommonButton variant="primary" class="grow" @click="restartRoute"> Try again </CommonButton>
-      <CommonButton variant="cancel" @click="cancelTransaction"> Cancel </CommonButton>
+      <CommonButton variant="primary" class="grow" @click="restartRoute"> {{ $t("onRamp.tryAgain") }} </CommonButton>
+      <CommonButton variant="cancel" @click="cancelTransaction"> {{ $t("common.cancel") }} </CommonButton>
     </div>
   </div>
 </template>

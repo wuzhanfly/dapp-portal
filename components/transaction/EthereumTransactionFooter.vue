@@ -7,13 +7,13 @@
         class="mb-2"
         @try-again="onboardStore.setCorrectNetwork"
       >
-        Network change error: {{ switchingNetworkError.message }}
+        {{ $t("ethereumTransaction.networkChangeError", { message: switchingNetworkError.message }) }}
       </CommonErrorBlock>
     </transition>
 
     <div v-if="buttonStep === 'connect'" class="transaction-footer-row">
       <CommonButton variant="primary" :disabled="isConnectingWallet" class="w-full" @click="onboardStore.openModal">
-        Connect wallet
+        {{ $t("common.connectWallet") }}
       </CommonButton>
     </div>
     <div v-if="buttonStep === 'network'" class="transaction-footer-row">
@@ -39,7 +39,7 @@
       </template>
       <template v-else>
         <CommonButton disabled variant="primary" class="w-full">
-          L1 network is not available on {{ selectedNetwork.name }}
+          {{ $t("transaction.l1NetworkNotAvailableOn", { network: selectedNetwork.name }) }}
         </CommonButton>
       </template>
     </div>

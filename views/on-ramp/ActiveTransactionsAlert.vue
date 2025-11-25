@@ -5,7 +5,9 @@
     @click="viewTransactions"
   >
     <InformationCircleIcon class="h-6 w-6 dark:text-white" />
-    <span class="grow">You have {{ routes.length }} active transaction{{ routes.length > 1 ? "s" : "" }}.</span>
+    <span class="grow">{{
+      $t("onRamp.youHaveActiveTransactions", { len: routes.length, lenUnit: routes.length > 1 ? "s" : "" })
+    }}</span>
     <ChevronRightIcon class="h-6 w-6 dark:text-white" />
   </div>
 </template>

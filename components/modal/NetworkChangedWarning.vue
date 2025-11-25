@@ -1,16 +1,16 @@
 <template>
   <CommonModal v-model:opened="modalOpened" title="Network switched" @after-leave="afterModalLeave">
     <p class="leading-normal">
-      The selected network has been automatically changed
-      <span v-if="lastSelectedNetwork"
-        >from <span class="font-medium">{{ lastSelectedNetwork.name }}</span>
+      {{ $t("bridge.networkChanged") }}
+      <span v-if="lastSelectedNetwork">
+        {{ $t("bridge.from") }} <span class="font-medium">{{ lastSelectedNetwork.name }}</span>
       </span>
-      to
-      <span class="font-medium">{{ selectedNetwork.name }}</span> since your last use of ZKsync Portal.
+      {{ $t("bridge.to") }}
+      <span class="font-medium">{{ selectedNetwork.name }}</span> {{ $t("bridge.sinceLastUse") }}
     </p>
-    <TypographyCategoryLabel class="-mb-2.5">Optional settings</TypographyCategoryLabel>
-    <CommonCheckbox v-model="doNotSwitchNetwork">Do not switch network automatically</CommonCheckbox>
-    <CommonCheckbox v-model="warningDisabled" class="mt-1">Do not show this warning</CommonCheckbox>
+    <TypographyCategoryLabel class="-mb-2.5">{{ $t("bridge.optionalSettings") }}</TypographyCategoryLabel>
+    <CommonCheckbox v-model="doNotSwitchNetwork">{{ $t("bridge.doNotSwitchNetworkAutomatically") }}</CommonCheckbox>
+    <CommonCheckbox v-model="warningDisabled" class="mt-1">{{ $t("bridge.doNotShowThisWarning") }}</CommonCheckbox>
     <div class="mt-4 flex flex-col items-center">
       <CommonButtonTopLink
         v-if="lastSelectedNetwork"
@@ -18,10 +18,10 @@
         :href="getNetworkUrl(lastSelectedNetwork, route.fullPath)"
         @click="setCheckboxValues"
       >
-        Return to {{ lastSelectedNetwork?.name }}
+        {{ $t("bridge.returnTo", { network: lastSelectedNetwork?.name }) }}
       </CommonButtonTopLink>
       <CommonButton variant="primary" class="w-full" @click="closeModal">
-        Continue on {{ selectedNetwork.name }}
+        {{ $t("bridge.continueOn", { network: selectedNetwork.name }) }}
       </CommonButton>
     </div>
   </CommonModal>

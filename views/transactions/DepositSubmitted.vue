@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="h1 mt-block-gap-1/2 text-center">
-      <template v-if="transaction.info.failed">Transaction failed</template>
+      <template v-if="transaction.info.failed">{{ $t("transaction.transactionFailed") }}</template>
       <template v-else>{{
         transaction.info.completed ? $t("transaction.completed") : $t("transaction.submitted")
       }}</template>
@@ -9,14 +9,16 @@
     <CommonHeightTransition :opened="!transaction.info.completed || transaction.info.failed">
       <p class="mb-4 text-center">
         <template v-if="transaction.info.failed">
-          The deposit transaction failed on <span class="font-medium">{{ transaction.from.destination.label }}</span>
-          . Your funds remain in your wallet and were not bridged.
+          {{ $t("transaction.transactionFailed1") }}
+          <span class="font-medium">{{ transaction.from.destination.label }}</span>
+          {{ $t("transaction.transactionFailed2") }}
         </template>
         <template v-else>
-          Your funds will be available after the transaction is committed on
-          <span class="font-medium">{{ transaction.from.destination.label }}</span> and then processed on
+          {{ $t("transaction.transactionFailed3") }}
+          <span class="font-medium">{{ transaction.from.destination.label }}</span>
+          {{ $t("transaction.transactionFailed4") }}
           <span class="font-medium">{{ transaction.to.destination.label }}</span
-          >. You are free to close this page.
+          >. {{ $t("transaction.transactionFailed5") }}
         </template>
       </p>
     </CommonHeightTransition>
@@ -43,7 +45,7 @@
       class="mx-auto mt-block-gap w-max"
       @click="makeAnotherTransaction && makeAnotherTransaction()"
     >
-      Make another transaction
+      {{ $t("transaction.makeAnotherTransaction") }}
     </CommonButton>
   </div>
 </template>

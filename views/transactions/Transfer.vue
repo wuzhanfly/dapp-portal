@@ -10,7 +10,7 @@
         }
       "
     >
-      Withdrawal claim required
+      {{ $t("transaction.withdrawalClaimRequired") }}
     </PageTitle>
     <PageTitle
       v-else-if="step === 'confirm'"
@@ -20,7 +20,7 @@
         }
       "
     >
-      Confirm transaction
+      {{ $t("transaction.confirmTransaction") }}
     </PageTitle>
 
     <NetworkSelectModal
@@ -37,10 +37,10 @@
     />
 
     <CommonErrorBlock v-if="tokensRequestError" @try-again="fetchBalances">
-      Getting tokens error: {{ tokensRequestError.message }}
+      {{ $t("transaction.gettingTokensError", { message: tokensRequestError.message }) }}
     </CommonErrorBlock>
     <CommonErrorBlock v-else-if="balanceError" @try-again="fetchBalances">
-      Getting balances error: {{ balanceError.message }}
+      {{ $t("transaction.gettingBalancesError", { message: balanceError.message }) }}
     </CommonErrorBlock>
     <form v-else @submit.prevent="">
       <template v-if="step === 'form'">
@@ -117,19 +117,18 @@
       <template v-else-if="step === 'withdrawal-finalization-warning'">
         <CommonAlert variant="warning" :icon="ExclamationTriangleIcon" class="mb-block-padding-1/2 sm:mb-block-gap">
           <p v-if="!isCustomNode">
-            After an approximately
-            <a class="underline underline-offset-2" :href="ZKSYNC_WITHDRAWAL_DELAY" target="_blank"
-              >~5+ hour withdrawal delay</a
-            >, return to this portal to claim your funds on Ethereum. Claiming will require paying Ethereum transaction
-            fees. You may also choose to use a third-party bridge to withdraw funds, at your own risk.
+            {{ $t("transaction.withdrawalFinalizationWarning1") }}
+            <a class="underline underline-offset-2" :href="ZKSYNC_WITHDRAWAL_DELAY" target="_blank">{{
+              $t("transaction.withdrawalFinalizationWarning2")
+            }}</a
+            >, {{ $t("transaction.withdrawalFinalizationWarning3") }}
           </p>
           <p v-else>
-            After transaction is executed on {{ eraNetwork.l1Network?.name }}, you will need to claim your funds which
-            requires paying another transaction fee on {{ eraNetwork.l1Network?.name }}.
+            {{ $t("transaction.withdrawalFinalizationWarning4", { network: eraNetwork.l1Network?.name }) }}
           </p>
         </CommonAlert>
         <CommonButton variant="primary" class="mx-auto mt-block-gap w-max" @click="buttonContinue()">
-          I understand, proceed to withdrawal
+          {{ $t("transaction.withdrawalBtn") }}
         </CommonButton>
       </template>
       <template v-else-if="step === 'confirm'">
@@ -140,13 +139,13 @@
           class="mb-block-padding-1/2 sm:mb-block-gap"
         >
           <p v-if="withdrawalManualFinalizationRequired">
-            You will be able to claim your withdrawal after an approximate 5+ hour withdrawal delay.
+            {{ $t("transaction.withdrawalManualFinalizationRequired1") }}
             <a class="underline underline-offset-2" :href="ZKSYNC_WITHDRAWAL_DELAY" target="_blank">{{
               $t("allowance.learnMore")
             }}</a>
           </p>
           <p v-else>
-            You will receive funds after an approximate 5+ hour withdrawal delay.
+            {{ $t("transaction.withdrawalManualFinalizationRequired2") }}
             <a class="underline underline-offset-2" :href="ZKSYNC_WITHDRAWAL_DELAY" target="_blank">{{
               $t("allowance.learnMore")
             }}</a>
@@ -186,7 +185,7 @@
 
       <template v-if="!nativeTokenBridgingOnly && !tokenCustomBridge && (step === 'form' || step === 'confirm')">
         <CommonErrorBlock v-if="feeError" class="mt-2" @try-again="estimate">
-          Fee estimation error: {{ feeError.message }}
+          {{ $t("transaction.feeEstimationError", { message: feeError.message }) }}
         </CommonErrorBlock>
         <div class="mt-4 flex items-center gap-4">
           <transition v-bind="TransitionOpacity()">
@@ -205,17 +204,17 @@
             target="_blank"
             class="ml-auto text-right"
           >
-            6+ hours
+            {{ $t("transaction.sixHours") }}
           </CommonButtonLabel>
           <CommonButtonLabel v-else-if="type === 'transfer'" as="span" class="ml-auto text-right">
-            Almost instant
+            {{ $t("transaction.almostInstant") }}
           </CommonButtonLabel>
         </div>
         <transition v-bind="TransitionAlertScaleInOutTransition">
           <CommonAlert v-if="!enoughBalanceToCoverFee" class="mt-4" variant="error" :icon="ExclamationTriangleIcon">
             <p>
-              Insufficient <span class="font-medium">{{ feeToken?.symbol }}</span> balance on
-              {{ destinations.era.label }} to cover the fee
+              {{ $t("transaction.insufficient") }} <span class="font-medium">{{ feeToken?.symbol }}</span>
+              {{ $t("transaction.balanceOn") }} {{ destinations.era.label }} {{ $t("transaction.toCoverTheFee") }}
             </p>
             <NuxtLink :to="{ name: 'receive-methods' }" class="alert-link">{{
               $t("transaction.receiveFunds")
@@ -255,15 +254,15 @@
                   @click="setTokenAllowance()"
                 >
                   <transition v-bind="TransitionPrimaryButtonText" mode="out-in">
-                    <span v-if="setAllowanceStatus === 'processing'">Processing...</span>
-                    <span v-else-if="setAllowanceStatus === 'waiting-for-signature'"
-                      >Waiting for allowance approval confirmation</span
-                    >
+                    <span v-if="setAllowanceStatus === 'processing'">{{ $t("transaction.processing") }}...</span>
+                    <span v-else-if="setAllowanceStatus === 'waiting-for-signature'">{{
+                      $t("allowance.waitingForApproval")
+                    }}</span>
                     <span v-else-if="setAllowanceStatus === 'sending'" class="flex items-center">
                       <CommonSpinner class="mr-2 h-6 w-6" />
-                      Approving allowance...
+                      {{ $t("allowance.approving") }}
                     </span>
-                    <span v-else>Approve {{ selectedToken?.symbol }} allowance</span>
+                    <span v-else>{{ $t("allowance.approve", { token: selectedToken?.symbol }) }}</span>
                   </transition>
                 </CommonButton>
               </template>
@@ -275,7 +274,7 @@
                 class="w-full"
                 @click="buttonContinue()"
               >
-                Continue
+                {{ $t("common.continue") }}
               </CommonButton>
             </template>
             <template v-else-if="step === 'confirm'">
@@ -284,11 +283,15 @@
                   <CommonAlert variant="error" :icon="ExclamationTriangleIcon">
                     <p>
                       {{
-                        selectedToken?.address.toUpperCase() === L2_BASE_TOKEN_ADDRESS.toUpperCase()
-                          ? "The fee has changed since the last estimation. "
-                          : ""
-                      }}Insufficient <span class="font-medium">{{ selectedToken?.symbol }}</span> balance to pay for
-                      transaction. {{ $t("transaction.goBackAndAdjustAmount") }}
+                        $t("transaction.enoughBalanceForTransaction1", {
+                          message:
+                            selectedToken?.address.toUpperCase() === L2_BASE_TOKEN_ADDRESS.toUpperCase()
+                              ? "The fee has changed since the last estimation. "
+                              : "",
+                        })
+                      }}
+                      <span class="font-medium">{{ selectedToken?.symbol }}</span>
+                      {{ $t("transaction.enoughBalanceForTransaction2") }} {{ $t("transaction.goBackAndAdjustAmount") }}
                     </p>
                     <button type="button" class="alert-link" @click="step = 'form'">{{ $t("common.goBack") }}</button>
                   </CommonAlert>
@@ -301,8 +304,10 @@
                 @click="buttonContinue()"
               >
                 <transition v-bind="TransitionPrimaryButtonText" mode="out-in">
-                  <span v-if="transactionStatus === 'processing'">Processing...</span>
-                  <span v-else-if="transactionStatus === 'waiting-for-signature'">Waiting for confirmation</span>
+                  <span v-if="transactionStatus === 'processing'">{{ $t("transaction.processing") }}...</span>
+                  <span v-else-if="transactionStatus === 'waiting-for-signature'">{{
+                    $t("transaction.waitingForConfirmation")
+                  }}</span>
                   <span v-else>
                     {{ type === "withdrawal" ? $t("bridge.bridgeNow") : $t("transaction.sendNow") }}
                   </span>

@@ -8,7 +8,7 @@
       class="transaction-hash-button"
       @click="copy()"
     >
-      Copy tx hash
+      {{ $t("transaction.copyTxHash") }}
       <CommonSpinner
         v-if="!transactionHash"
         variant="text-color"
@@ -26,7 +26,7 @@
         disabled
         class="transaction-hash-button"
       >
-        Explorer
+        {{ $t("common.explorer") }}
         <CommonSpinner variant="text-color" class="transaction-hash-button-icon" aria-hidden="true" />
       </CommonButton>
       <CommonButton
@@ -38,7 +38,7 @@
         target="_blank"
         class="transaction-hash-button"
       >
-        Explorer
+        {{ $t("common.explorer") }}
         <ArrowTopRightOnSquareIcon class="transaction-hash-button-icon" aria-hidden="true" />
       </CommonButton>
     </template>

@@ -19,6 +19,7 @@
     "edit": "Edit",
     "copy": "Copy",
     "copied": "Copied",
+    "copyAddress": "Copy address",
     "addressCopied": "Address copied",
     "change": "Change",
     "loading": "Loading...",
@@ -53,7 +54,12 @@
     "contact": "Contact",
     "privacy": "Privacy",
     "terms": "Terms",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "explorer": "Explorer",
+    "logout": "Disconnect",
+    "backToBridge": "Back to Bridge",
+    "network": "Network",
+    "portal": "Portal"
   },
   "assets": {
     "title": "Assets",
@@ -71,7 +77,13 @@
     "topUpWithCash": "Top-up with cash",
     "buyTokens": "Buy tokens using a card or another method for fiat",
     "bridgeFromOtherNetworks": "Bridge from other networks",
-    "exploreEcosystem": "Explore ecosystem of third party bridges"
+    "exploreEcosystem": "Explore ecosystem of third party bridges",
+    "proceedTo": "Proceed to",
+    "pageToAddBalance": "page to add balance to your account",
+    "receiveFromNetwork2": "You have {balanceLen} token{balanceUnit} worth {balanceTotal} that you can receive from {network}",
+    "officialBridge": "Official bridge",
+    "receiveFromYourNetworkAccount": "Receive from your {network} account",
+    "sendToAnotherAccountOn": "Send to another account on {network}"
   },
   "transfers": {
     "connectToView": "Connect wallet to view your latest transfers on {network}",
@@ -95,7 +107,14 @@
     "upgradeInformation": "upgrade information page",
     "withdrawDisabled": "Bridging from {network} is temporarily disabled because of undergoing upgrade, expected to be completed by June 7th, 15:00 UTC. Please check back later. For more details, visit the",
     "bridgeTo": "Bridge to {network}",
-    "bridgeNow": "Bridge now"
+    "bridgeNow": "Bridge now",
+    "walletWarning": "Wallet warning",
+    "confirmTransaction":"Confirm transaction",
+    "from": "From",
+    "to": "To",
+    "toYourAccount": "To your account",
+    "networkChanged": "The selected network has been automatically changed",
+    "sinceLastUse": "since your last use of ZKsync Portal."
   },
   "onRamp": {
     "buyCrypto": "Buy crypto",
@@ -110,7 +129,24 @@
     "fee": "Fee",
     "totalCost": "Total cost",
     "redirectingInSeconds": "Redirecting you back in {seconds} seconds.",
-    "clickToGoBack": "Click to go back to"
+    "clickToGoBack": "Click to go back to",
+    "orderCompleted": "Order completed successfully!",
+    "youHaveSuccessfullyReceived": "You have successfully received",
+    "addFunds": "Add more funds",
+    "youPay": "You pay (USD)",
+    "inputNotValidNumber": "Input is not a valid number.",
+    "addFundsNotice": "Add $30+ to unlock more provider options.",
+    "youReceive": "You'll receive",
+    "errorOccurred": "An error has occurred. Please try again.",
+    "connectWalletToContinue": "Connect wallet to continue",
+    "youHaveActiveTransactions": "You have {len} active transaction{lenUnit}.",
+    "purchasingTokenPurchase": "Purchasing {tokenPurchase}",
+    "swappingEthTo": "Swapping ETH to {symbol}",
+    "tryAgain": "Try again",
+    "cancel": "Cancel",
+    "paymentMethods": "Payment methods",
+    "noQuotesAvailable": "No quotes available",
+    "transactionFailed": "Transaction failed"
   },
   "transaction": {
     "notFound": "Transaction not found",
@@ -163,7 +199,75 @@
     "incorrectNetwork": "Incorrect network selected in your wallet",
     "changeNetworkTo": "Change wallet network to {network}",
     "changeNetworkManuallyTo": "Change network manually to {network} in your {walletName} wallet",
-    "failed": "Failed"
+    "failed": "Failed",
+    "toAnotherAccount": "To another account",
+    "checkingAllowanceError": "Checking allowance error: {message}",
+    "allowanceApprovalError": "Allowance approval error: {message}",
+    "insufficient": "Insufficient",
+    "balanceOn": "balance on",
+    "toCoverTheFee": "to cover the fee",
+    "weRecommendHavingAtLeast": "We recommend having at least",
+    "on": "on",
+    "forDeposit": "for deposit",
+    "allowanceApproved": "{token} allowance approved",
+    "approve": "Approve {token} allowance",
+    "viewOnExplorer": "View on Explorer",
+    "underline1": "Before depositing you need to give our bridge permission to spend specified amount of",
+    "underline2": "You can deposit up to",
+    "underline3": "without approving a new allowance.",
+    "learnMore": "Learn more",
+    "processing": "Processing",
+    "exceedsMaxAmountError": "The inputted amount is higher than the recommended maximum amount. This means your transaction might fail.",
+    "continueButtonDisabledError1": "The fee has changed since the last estimation. Insufficient",
+    "continueButtonDisabledError2": "balance to pay for transaction",
+    "goBack": "Go back",
+    "gettingTokensError": "Getting tokens error: {message}",
+    "gettingBalancesError": "Getting balances error: {message}",
+    "tokenCustomBridgeAlertWarning": " Bridged {symbol1} ({symbol2}) will work but is different from native {symbol3}.",
+    "walletWarning1": "Make sure your wallet supports {network} network before adding funds to your account. Otherwise, this can result in",
+    "walletWarning2": ". See the list of supported wallets on the",
+    "walletWarning3": "website.",
+    "buttonContinue": "I understand, proceed to bridge",
+    "disableWalletWarning": "Don't show again",
+    "momentNoTransfers": "At the moment you don't have any transfers on",
+    "depositUnavailable": "Deposit is not available on ",
+    "sinceNotHaveL1Network": "since it doesn't have L1 network",
+    "withdrawalUnavailable": "Withdrawal is not available on",
+    "optionalSettings": "Optional settings",
+    "doNotSwitchNetworkAutomatically": "Do not switch network automatically",
+    "doNotShowThisWarning": "Do not show this warning",
+    "returnTo": "Return to {network}",
+    "continueOn": "Continue on {network}",
+    "customBridgeAlert": "Bridging {symbol} is not supported by ZKsync Portal.",
+    "customBridgeLabel": "Use 3rd party bridges to get native {symbol} on {network}.",
+    "copyTxHash": "Copy tx hash",
+    "yourAccount": "Your account {address}",
+    "withdrawalAvailable": "Withdrawal is available for claiming on the {network} network.",
+    "transactionFailed1": "The deposit transaction failed on",
+    "transactionFailed2": "Your funds remain in your wallet and were not bridged.",
+    "transactionFailed3": "Your funds will be available after the transaction is committed on",
+    "transactionFailed4": "and then processed on",
+    "transactionFailed5": "You are free to close this page.",
+    "transactionReceive1": "Please ensure funds to be sent from an account on",
+    "transactionReceive2": "otherwise it may result in the permanent loss of funds.",
+    "yourAddress": "Your { network } address",
+    "withdrawalClaimRequired": "Withdrawal claim required",
+    "confirmTransaction": "Confirm transaction",
+    "withdrawalFinalizationWarning1": "After an approximately",
+    "withdrawalFinalizationWarning2": "~5+ hour withdrawal delay",
+    "withdrawalFinalizationWarning3": "return to this portal to claim your funds on Ethereum. Claiming will require paying Ethereum transaction fees. You may also choose to use a third-party bridge to withdraw funds, at your own risk.",
+    "withdrawalFinalizationWarning4": "After transaction is executed on {network}, you will need to claim your funds which requires paying another transaction fee on {network}.",
+    "withdrawalBtn": "I understand, proceed to withdrawal",
+    "withdrawalManualFinalizationRequired1": "You will be able to claim your withdrawal after an approximate 5+ hour withdrawal delay.",
+    "withdrawalManualFinalizationRequired2": "You will receive funds after an approximate 5+ hour withdrawal delay.",
+    "sixHours": "6+ hours",
+    "almostInstant": "Almost instant",
+    "enoughBalanceForTransaction1": "{message} Insufficient",
+    "enoughBalanceForTransaction2": "balance to pay for transaction. ",
+    "completed1": "Your funds will be available at the",
+    "completed2": "destination address",
+    "completed3": "after the transaction is committed on the",
+    "completed4": ". You are free to close this page."
   },
   "auth": {
     "authenticationRequired": "Authentication Required",
@@ -201,7 +305,8 @@
     "insufficientBalance": "Insufficient balance",
     "invalidAddress": "Invalid address",
     "unknownError": "Unknown error occurred",
-    "tryAgain": "Please try again"
+    "tryAgain": "Please try again",
+    "loadingTransfersError": "Loading transfers error: {errorMsg}"
   },
   "wallet": {
     "connect": "Connect wallet",
@@ -219,7 +324,12 @@
     "mainnet": "Mainnet",
     "testnet": "Testnet",
     "network": "Network",
-    "switchNetwork": "Switch network"
+    "switchNetwork": "Switch network",
+    "deprecationAlert1": "{network} will be deprecated on March 31st. Please use",
+    "deprecationAlert2": "instead.",
+    "forMoreInfo": "For more info see the",
+    "announcement": "announcement",
+    "noChainsFound": "No chains found for {search}"
   },
   "success": {
     "transactionSuccess": "Transaction successful",
@@ -250,7 +360,8 @@
     "withoutApproving": "without approving a new allowance.",
     "learnMore": "Learn more",
     "approvalRequired": "Allowance approval required",
-    "waitingForApproval": "Waiting for allowance approval confirmation"
+    "waitingForApproval": "Waiting for allowance approval confirmation",
+    "approving": "Approving allowance..."
   },
   "deprecation": {
     "networkShutdown": "{network} will be shutdown on March 31st. Please use",
@@ -261,6 +372,7 @@
   },
   "mobileMenu": {
     "chooseNetwork": "Choose network",
+    "menu": "Menu",
     "theme": "Theme",
     "darkMode": "Dark mode",
     "lightMode": "Light mode"
@@ -281,5 +393,13 @@
     "hours": "{count} hour",
     "minutes": "{count} minute", 
     "seconds": "{count} second"
+  },
+  "help": {
+    "title": "Help",
+    "discordDes": "Get support, follow announcements and connect with community",
+    "faq": "FAQ",
+    "faqDes": "Find tutorials and answers to the most common questions",
+    "officialDocumentation": "Official Documentation",
+    "officialDocumentationDes": "Developer resources and technical ZKsync documentation"
   }
 }

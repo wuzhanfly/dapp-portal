@@ -1,7 +1,7 @@
 <template>
   <div id="list" class="-mt-5 max-h-[380px] overflow-y-auto rounded-b-2xl bg-transparent px-6 pb-10 pt-2">
     <div class="mb-2 flex flex-col">
-      <div class="mb-2 text-lg font-bold">Payment methods</div>
+      <div class="mb-2 text-lg font-bold">{{ $t("onRamp.paymentMethods") }}</div>
       <QuoteFilter />
     </div>
     <div class="flex flex-col gap-2">
@@ -16,7 +16,7 @@
         </template>
       </template>
       <template v-else-if="quotes && quotes.length === 0">
-        <div class="h-10">No quotes available</div>
+        <div class="h-10">{{ $t("onRamp.noQuotesAvailable") }}</div>
       </template>
     </div>
   </div>
@@ -30,7 +30,7 @@ import QuotePreview from "@/views/on-ramp/QuotePreview.vue";
 
 const { quotes, quoteFilter } = storeToRefs(useQuotesStore());
 watchEffect(() => {
-  if (quotes.value) {
+  if (quotes.value && quotes.value.length > 0) {
     const sorted = sortByFees(quotes.value, false);
     filteredQuotes.value = filterByPaymentMethod(sorted, quoteFilter.value ?? []);
   }

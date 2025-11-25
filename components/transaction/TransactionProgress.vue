@@ -12,7 +12,7 @@
               class="h-6 w-6"
             />
           </div>
-          <div>Your account {{ shortenAddress(fromAddress) }}</div>
+          <div>{{ $t("transaction.yourAccount", { address: shortenAddress(fromAddress) }) }}</div>
         </div>
         <div class="info-column right">
           <div class="flex flex-col items-center justify-center gap-1 md:flex-row">
