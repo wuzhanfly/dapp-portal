@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # zkSync Portal Bridge 应用 (包含内置nginx和API代理)
+  zksync-bridge:
+    image: zksync-bridge:latest
+    container_name: zksync-bridge
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - NODE_TYPE=hyperchain
+      - WALLET_CONNECT_PROJECT_ID=a1be95859dbb2348a4aa5c370a0cae57
+      - SENTRY_ENV=production
+      - GIT_COMMIT_HASH=docker-build
+      - GIT_REPO_URL=https://github.com/matter-labs/dapp-portal
+    ports:
+      - "8080:3000"
+    networks:
+      - bridge-network
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  bridge-network:
+    driver: bridge

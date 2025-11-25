@@ -1,0 +1,20 @@
+# Main Docker Compose configuration for zkSync Portal
+# This is the default configuration for development/testing
+
+services:
+  zksync-portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zksync-portal-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    networks:
+      - zksync-network
+
+networks:
+  zksync-network:
+    driver: bridge

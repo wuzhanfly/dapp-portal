@@ -162,16 +162,34 @@ npm run generate:node:hyperchain
      ```
    - **状态**: 已修复，费用估算现在完全支持 BSC 网络
 
-3. **⚠️ Fee 估算 BigInt 转换问题 (待解决)**
+3. **✅ BSC Deposit 费用估算 BigInt 转换问题**
    - **问题**: `Fee estimation error: Cannot convert null to a BigInt`
-   - **状态**: 问题仍然存在，需要进一步调试
-   - **可能原因**: 
-     - BSC 网络的 RPC 返回 null 值
-     - zksync-ethers 库与 BSC 网络的兼容性问题
-     - EIP-1559 与 BSC 网络的差异导致的数据格式问题
-   - **临时解决方案**: 
-     - 可以尝试使用以太坊测试网进行测试
-     - 或者等待 zksync-ethers 库的 BSC 兼容性更新
+   - **根本原因**: 
+     - BSC 网络 EIP-1559 实现不完整，返回 null 值
+     - zksync-ethers 库期望完整的 EIP-1559 数据结构
+     - BSC 的 `baseFeePerGas` 始终为 0，导致计算异常
+   - **完整修复方案**:
+     - **BSC 网络检测**: 自动识别 Chain ID 97 (BSC Testnet)
+     - **强制 Legacy 模式**: 使用 `type: 0` 交易类型
+     - **Fallback 机制**: 为所有可能的 null 值提供备用方案
+     - **增强错误处理**: 完整的 null 检查和 Sentry 错误报告
+     - **BSC 优化**: 对 BSC 网络使用 ERC20 费用结构
+   - **技术实现**:
+     ```typescript
+     // 强制 Legacy 交易类型
+     const overrides = {
+       type: 0, // Force legacy transaction type
+       gasPrice: fee.gasPrice,
+       maxFeePerGas: undefined,
+       maxPriorityFeePerGas: undefined,
+     }
+     
+     // BSC 网络特殊处理
+     if (isBscNetwork.value) {
+       fee.value = getERC20TransactionFee() // 使用简化费用结构
+     }
+     ```
+   - **状态**: ✅ 已完全修复，Deposit 功能在 BSC 网络正常工作
 
 ### **常见问题**
 

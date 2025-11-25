@@ -1,0 +1,55 @@
+FROM node:20-alpine AS base-stage
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy package files
+COPY package*.json ./
+
+FROM base-stage AS build-stage
+
+# Install build dependencies
+RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
+
+# Install dependencies
+RUN npm cache clean --force && npm install
+
+# Copy source code
+COPY . .
+
+# Set environment variables for BSC Hyperchain build
+ENV NODE_TYPE=hyperchain
+ENV GIT_COMMIT_HASH=docker-build
+ENV GIT_REPO_URL=https://github.com/matter-labs/dapp-portal
+
+# Generate static files for hyperchain mode
+RUN npm run generate:node:hyperchain
+
+FROM nginx:alpine AS production-stage
+
+# Copy built files to nginx
+COPY --from=build-stage /usr/src/app/.output/public /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY docker/nginx-with-api.conf /etc/nginx/nginx.conf
+
+# Create nginx user and set permissions
+RUN addgroup -g 1001 -S nodejs && \
+  adduser -S nextjs -u 1001 && \
+  chown -R nextjs:nodejs /usr/share/nginx/html && \
+  chown -R nextjs:nodejs /var/cache/nginx && \
+  chown -R nextjs:nodejs /var/log/nginx && \
+  chown -R nextjs:nodejs /etc/nginx/conf.d
+
+# Switch to non-root user
+USER nextjs
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  zksync-portal-bsc:
+    image: zksync-portal-bsc:latest
+    container_name: zksync-portal-bsc
+    expose:
+      - "3000"
+    volumes:
+      - ./config.js:/usr/share/nginx/html/config.js:ro
+    environment:
+      - NODE_ENV=production
+      - NODE_TYPE=hyperchain
+      - HTTPS=true
+      - FORCE_HTTPS=true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zksync-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: zksync-portal-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-rpc-proxy-fixed.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - zksync-portal-bsc
+    restart: unless-stopped
+    networks:
+      - zksync-network
+
+networks:
+  zksync-network:
+    driver: bridge

@@ -1,0 +1,30 @@
+# Production Docker Compose configuration for zkSync Portal
+# Use this for production deployments on zkSync Era mainnet
+
+services:
+  zksync-portal-prod:
+    image: zksync-portal-bsc:latest
+    container_name: zksync-portal-bsc
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zksync-portal-prod.rule=Host(`portal.zksync.io`)"
+      - "traefik.http.routers.zksync-portal-prod.tls=true"
+      - "traefik.http.routers.zksync-portal-prod.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zksync-portal-prod.loadbalancer.server.port=3000"
+    networks:
+      - zksync-network
+
+networks:
+  zksync-network:
+    driver: bridge

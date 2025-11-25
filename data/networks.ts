@@ -203,9 +203,9 @@ const publicChains: ZkSyncNetwork[] = [
     id: 9720,
     key: "zk_bsc_chain",
     name: "ZK BSC Chain",
-    rpcUrl: "http://13.228.79.240:3050",
-    blockExplorerUrl: "http://54.255.170.191:3010",
-    blockExplorerApi: "http://54.255.170.191:3002",
+    rpcUrl: "https://testnet-node-0.maichain.org/",
+    blockExplorerUrl: "https://testnet.maiscan.org",
+    blockExplorerApi: "https://testnet-bridge.maichain.org/api",
     displaySettings: {
       onramp: false,
       showPartnerLinks: false,
@@ -216,8 +216,8 @@ const publicChains: ZkSyncNetwork[] = [
       name: "BSC Testnet",
       nativeCurrency: { name: "Test BNB", symbol: "BNB", decimals: 18 },
       rpcUrls: {
-        default: { http: ["http://47.130.24.70:10575"] },
-        public: { http: ["http://47.130.24.70:10575"] },
+        default: { http: ["https://bsc-testnet-rpc.publicnode.com"] },
+        public: { http: ["https://bsc-testnet-rpc.publicnode.com"] },
       },
       blockExplorers: {
         default: {
@@ -240,6 +240,15 @@ const publicChains: ZkSyncNetwork[] = [
         decimals: 18,
         l1Address: "0x0000000000000000000000000000000000000000",
         iconUrl: "/img/bnb.svg",
+      },
+      {
+        address: "0xCBE45965d9358A785971470F904aED8BE33EF5F8",
+        l2Address: "0xCBE45965d9358A785971470F904aED8BE33EF5F8",
+        symbol: "MAC",
+        name: "MA Coin",
+        decimals: 18,
+        l1Address: "0x68da710056e0491B436c5ef6A1DFB246b2E882bC",
+        iconUrl: "/img/mac.svg",
       },
     ],
   },

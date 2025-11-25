@@ -54,7 +54,7 @@ export const useZkSyncTransfersHistoryStore = defineStore("zkSyncTransfersHistor
     if (!eraNetwork.value.blockExplorerApi)
       throw new Error(`Block Explorer API is not available on ${eraNetwork.value.name}`);
 
-    const url = new URL(`/address/${account.value.address}/transfers`, eraNetwork.value.blockExplorerApi);
+    const url = new URL(`${eraNetwork.value.blockExplorerApi}/address/${account.value.address}/transfers`);
     url.searchParams.set("limit", TRANSACTIONS_FETCH_LIMIT.toString());
     return url;
   });
@@ -72,6 +72,9 @@ export const useZkSyncTransfersHistoryStore = defineStore("zkSyncTransfersHistor
         resetPaginatedRequest();
       }
       const response = await loadNext();
+      if (!response || !response.items) {
+        throw new Error("Invalid API response: missing items array");
+      }
       const mappedTransfers = response.items.map(mapApiTransfer);
       transfers.value = filterOutDuplicateTransfers(mappedTransfers);
     },
@@ -90,6 +93,9 @@ export const useZkSyncTransfersHistoryStore = defineStore("zkSyncTransfersHistor
         return requestRecentTransfers();
       }
       const response = await loadNext();
+      if (!response || !response.items) {
+        throw new Error("Invalid API response: missing items array");
+      }
       const mappedTransfers = response.items.map((e) => mapApiTransfer(e));
       transfers.value = filterOutDuplicateTransfers([...transfers.value, ...mappedTransfers]);
     },

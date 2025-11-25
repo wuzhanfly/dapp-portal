@@ -26,9 +26,9 @@ export const useZkSyncTokensStore = defineStore("zkSyncTokens", () => {
 
     if (eraNetwork.value.blockExplorerApi) {
       const responses: Api.Response.Collection<Api.Response.Token>[] = await Promise.all([
-        $fetch(`${eraNetwork.value.blockExplorerApi}/tokens?minLiquidity=0&limit=100&page=1`),
-        $fetch(`${eraNetwork.value.blockExplorerApi}/tokens?minLiquidity=0&limit=100&page=2`),
-        $fetch(`${eraNetwork.value.blockExplorerApi}/tokens?minLiquidity=0&limit=100&page=3`),
+        $fetch(`${eraNetwork.value.blockExplorerApi}/tokens?limit=100&page=1`),
+        $fetch(`${eraNetwork.value.blockExplorerApi}/tokens?limit=100&page=2`),
+        $fetch(`${eraNetwork.value.blockExplorerApi}/tokens?limit=100&page=3`),
       ]);
       explorerTokens = responses.map((response) => response.items.map(mapApiToken)).flat();
       baseToken = explorerTokens.find((token) => token.address.toUpperCase() === L2_BASE_TOKEN_ADDRESS.toUpperCase());
@@ -66,14 +66,35 @@ export const useZkSyncTokensStore = defineStore("zkSyncTokens", () => {
       };
     }
 
-    const tokens = explorerTokens.length ? explorerTokens : configTokens;
-    const nonBaseOrEthExplorerTokens = tokens.filter(
+    // Merge explorer tokens and config tokens
+    // For tokens that exist in both, use config token properties (like iconUrl) to override API values
+    const allTokens = [...explorerTokens];
+    for (const configToken of configTokens) {
+      const existingTokenIndex = allTokens.findIndex(
+        (t) => t.address.toUpperCase() === configToken.address.toUpperCase()
+      );
+      if (existingTokenIndex >= 0) {
+        // Token exists in API, merge config properties (iconUrl, l1Address, etc.)
+        allTokens[existingTokenIndex] = {
+          ...allTokens[existingTokenIndex],
+          ...configToken,
+          // Keep API values for these if they exist
+          ...(allTokens[existingTokenIndex].name && { name: allTokens[existingTokenIndex].name }),
+          ...(allTokens[existingTokenIndex].symbol && { symbol: allTokens[existingTokenIndex].symbol }),
+        };
+      } else {
+        // Token doesn't exist in API, add it from config
+        allTokens.push(configToken);
+      }
+    }
+
+    const nonBaseOrEthTokens = allTokens.filter(
       (token) => token.address !== L2_BASE_TOKEN_ADDRESS && token.address !== ethL2TokenAddress
     );
     return [
       baseToken,
       ...(ethToken && baseToken.address.toUpperCase() !== ethToken.address.toUpperCase() ? [ethToken] : []),
-      ...nonBaseOrEthExplorerTokens,
+      ...nonBaseOrEthTokens,
     ].map((token) => ({
       ...token,
       isETH: token.address.toUpperCase() === ethL2TokenAddress.toUpperCase(),

@@ -1,0 +1,23 @@
+# Docker Compose override for local development
+# This file is automatically loaded by docker-compose
+# Use this for local development customizations
+
+services:
+  zksync-portal:
+    # Enable development mode
+    environment:
+      - NODE_ENV=development
+      - DEBUG=true
+    
+    # Mount source code for hot reload (optional)
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules
+    
+    # Override command for development (optional)
+    # command: npm run dev
+    
+    # Add development labels
+    labels:
+      - "dev.environment=local"
+      - "dev.project=zksync-portal"
