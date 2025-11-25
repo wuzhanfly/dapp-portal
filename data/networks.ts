@@ -203,8 +203,8 @@ const publicChains: ZkSyncNetwork[] = [
     id: 9720,
     key: "zk_bsc_chain",
     name: "ZK BSC Chain",
-    rpcUrl: "http://13.228.79.240:3050",
-    blockExplorerUrl: "http://54.255.170.191:3010",
+    rpcUrl: "https://testnet-node-0.maichain.org",
+    blockExplorerUrl: "https://testnet.maiscan.org",
     blockExplorerApi: "http://54.255.170.191:3002",
     displaySettings: {
       onramp: false,
