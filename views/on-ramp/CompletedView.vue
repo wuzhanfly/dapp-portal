@@ -1,23 +1,23 @@
 <template>
   <CommonContentBlock v-if="order">
     <div class="flex flex-col items-center">
-      <span class="mt-2 text-xl">Order completed successfully!</span>
+      <span class="mt-2 text-xl">{{ $t("onRamp.orderCompleted") }}</span>
     </div>
     <div class="flex flex-col items-center">
       <TokenImage :chain-icon="chainIcon" :symbol="tokenSymbol" :icon-url="tokenIconUrl" class="mb-4 h-11 w-11" />
-      <span>You have successfully received</span>
+      <span>{{ $t("onRamp.youHaveSuccessfullyReceived") }}</span>
       <span class="mt-2 text-3xl" :title="finalValue[1] + ' ' + tokenSymbol"
         >{{ finalValue[0] }} {{ tokenSymbol }}</span
       >
     </div>
   </CommonContentBlock>
-  <CommonButton v-if="!redirectURL" :to="{ name: 'on-ramp' }" class="mt-4" variant="light" @click="reload"
-    >Add more funds</CommonButton
-  >
+  <CommonButton v-if="!redirectURL" :to="{ name: 'on-ramp' }" class="mt-4" variant="light" @click="reload">{{
+    $t("onRamp.addFunds")
+  }}</CommonButton>
   <template v-else>
     <CommonButton class="mt-4" variant="light" @click="goToRedirect">
-      Redirecting you back in 3 seconds.<br />
-      Click to go back to {{ redirectURL.split("/").pop() }}
+      {{ $t("onRamp.redirectingInSeconds", { seconds: 3 }) }}<br />
+      {{ $t("onRamp.clickToGoBack") }} {{ redirectURL.split("/").pop() }}
     </CommonButton>
   </template>
 </template>

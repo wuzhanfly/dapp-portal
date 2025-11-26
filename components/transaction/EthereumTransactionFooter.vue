@@ -7,17 +7,17 @@
         class="mb-2"
         @try-again="onboardStore.setCorrectNetwork"
       >
-        Network change error: {{ switchingNetworkError.message }}
+        {{ $t("ethereumTransaction.networkChangeError", { message: switchingNetworkError.message }) }}
       </CommonErrorBlock>
     </transition>
 
     <div v-if="buttonStep === 'connect'" class="transaction-footer-row">
       <CommonButton variant="primary" :disabled="isConnectingWallet" class="w-full" @click="onboardStore.openModal">
-        Connect wallet
+        {{ $t("common.connectWallet") }}
       </CommonButton>
     </div>
     <div v-if="buttonStep === 'network'" class="transaction-footer-row">
-      <CommonButtonTopInfo>Incorrect network selected in your wallet</CommonButtonTopInfo>
+      <CommonButtonTopInfo>{{ $t("transaction.incorrectNetwork") }}</CommonButtonTopInfo>
       <template v-if="l1Network">
         <CommonButton
           v-if="connectorName !== 'WalletConnect'"
@@ -28,18 +28,18 @@
           @click="onboardStore.setCorrectNetwork"
         >
           <slot v-bind="{ l1Network, walletName }" name="change-network-auto">
-            Change wallet network to {{ l1Network.name }}
+            {{ $t("transaction.changeNetworkTo", { network: l1Network.name }) }}
           </slot>
         </CommonButton>
         <CommonButton v-else disabled variant="primary" class="w-full">
           <slot v-bind="{ l1Network, walletName }" name="change-network-manual">
-            Change network manually to {{ l1Network.name }} in your {{ walletName }} wallet
+            {{ $t("transaction.changeNetworkManuallyTo", { network: l1Network.name, walletName }) }}
           </slot>
         </CommonButton>
       </template>
       <template v-else>
         <CommonButton disabled variant="primary" class="w-full">
-          L1 network is not available on {{ selectedNetwork.name }}
+          {{ $t("transaction.l1NetworkNotAvailableOn", { network: selectedNetwork.name }) }}
         </CommonButton>
       </template>
     </div>

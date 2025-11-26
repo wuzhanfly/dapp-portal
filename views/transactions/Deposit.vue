@@ -1,8 +1,8 @@
 <template>
   <div>
     <NetworkDeprecationAlert v-if="step === 'form'" />
-    <PageTitle v-if="step === 'form'">Bridge</PageTitle>
-    <PageTitle v-else-if="step === 'wallet-warning'">Wallet warning</PageTitle>
+    <PageTitle v-if="step === 'form'">{{ $t("common.bridge") }}</PageTitle>
+    <PageTitle v-else-if="step === 'wallet-warning'">{{ $t("bridge.walletWarning") }}</PageTitle>
     <PageTitle
       v-else-if="step === 'confirm'"
       :back-function="
@@ -11,27 +11,27 @@
         }
       "
     >
-      Confirm transaction
+      {{ $t("bridge.confirmTransaction") }}
     </PageTitle>
 
     <NetworkSelectModal
       v-model:opened="fromNetworkModalOpened"
-      title="From"
+      :title="$t('bridge.from')"
       :network-key="destinations.ethereum.key"
       @update:network-key="fromNetworkSelected($event)"
     />
     <NetworkSelectModal
       v-model:opened="toNetworkModalOpened"
-      title="To"
+      :title="$t('bridge.to')"
       :network-key="destination.key"
       @update:network-key="toNetworkSelected($event)"
     />
 
     <CommonErrorBlock v-if="tokensRequestError" @try-again="fetchBalances">
-      Getting tokens error: {{ tokensRequestError.message }}
+      {{ $t("transaction.gettingTokensError", { message: tokensRequestError.message }) }}
     </CommonErrorBlock>
     <CommonErrorBlock v-else-if="balanceError" @try-again="fetchBalances">
-      Getting balances error: {{ balanceError.message }}
+      {{ $t("transaction.gettingBalancesError", { message: balanceError.message }) }}
     </CommonErrorBlock>
     <form v-else @submit.prevent="">
       <template v-if="step === 'form'">
@@ -45,7 +45,7 @@
           v-model="amount"
           v-model:error="amountError"
           v-model:token-address="amountInputTokenAddress"
-          label="From"
+          :label="$t('bridge.from')"
           :tokens="availableTokens"
           :balances="availableBalances"
           :max-amount="maxAmount"
@@ -73,8 +73,13 @@
           <div class="mb-block-padding-1/2 sm:mb-block-gap">
             <CommonAlert variant="warning" size="sm">
               <p>
-                Bridged {{ tokenCustomBridge?.symbol }} ({{ tokenCustomBridge?.bridgedSymbol }}) will work but is
-                different from native {{ tokenCustomBridge?.symbol }}.
+                {{
+                  $t("transaction.tokenCustomBridgeAlertWarning", {
+                    symbol1: tokenCustomBridge?.symbol,
+                    symbol2: tokenCustomBridge?.bridgedSymbol,
+                    symbol3: tokenCustomBridge?.symbol,
+                  })
+                }}
               </p>
               <a
                 v-if="tokenCustomBridge?.learnMoreUrl"
@@ -82,15 +87,15 @@
                 target="_blank"
                 :href="tokenCustomBridge.learnMoreUrl"
               >
-                Learn more
+                {{ $t("transaction.learnMore") }}
               </a>
             </CommonAlert>
           </div>
         </CommonHeightTransition>
         <CommonInputTransactionAddress
           v-model="address"
-          label="To"
-          :default-label="`To your account ${account.address ? shortenAddress(account.address) : ''}`"
+          :label="$t('bridge.to')"
+          :default-label="`${$t('bridge.toYourAccount')} ${account.address ? shortenAddress(account.address) : ''}`"
           :address-input-hidden="tokenCustomBridge?.bridgingDisabled"
         >
           <template #dropdown>
@@ -123,23 +128,23 @@
       <template v-else-if="step === 'wallet-warning'">
         <CommonAlert variant="warning" :icon="ExclamationTriangleIcon" class="mb-block-padding-1/2 sm:mb-block-gap">
           <p>
-            Make sure your wallet supports {{ eraNetwork.name }} network before adding funds to your account. Otherwise,
-            this can result in <span class="font-medium text-red-600">loss of funds</span>. See the list of supported
-            wallets on the
+            {{ $t("transaction.walletWarning1", { network: eraNetwork.name }) }}
+            <span class="font-medium text-red-600">{{ $t("transaction.lossOfFunds") }}</span
+            >{{ $t("transaction.walletWarning2") }}
             <a
               class="underline underline-offset-2"
               href="https://zksync.dappradar.com/ecosystem?category=non_dapps_wallets"
               target="_blank"
-              >Ecosystem</a
+              >{{ $t("common.ecosystem") }}</a
             >
-            website.
+            {{ $t("transaction.walletWarning3") }}
           </p>
         </CommonAlert>
         <CommonButton type="submit" variant="primary" class="mt-block-gap w-full gap-1" @click="buttonContinue()">
-          I understand, proceed to bridge
+          {{ $t("transaction.buttonContinue") }}
         </CommonButton>
         <CommonButton size="sm" class="mx-auto mt-block-gap w-max" @click="disableWalletWarning()">
-          Don't show again
+          {{ $t("transaction.disableWalletWarning") }}
         </CommonButton>
       </template>
       <template v-else-if="step === 'confirm'">
@@ -173,19 +178,21 @@
         "
       >
         <CommonErrorBlock v-if="feeError" class="mt-2" @try-again="estimate">
-          Fee estimation error: {{ feeError.message }}
+          {{ $t("transaction.feeEstimationError", { message: feeError.message }) }}
         </CommonErrorBlock>
         <div class="mt-4 flex items-center gap-4">
           <transition v-bind="TransitionOpacity()">
             <TransactionFeeDetails
               v-if="!feeError && (fee || feeLoading)"
-              label="Fee:"
+              :label="$t('transaction.fee') + ':'"
               :fee-token="feeToken"
               :fee-amount="fee"
               :loading="feeLoading"
             />
           </transition>
-          <CommonButtonLabel v-if="!isCustomNode" as="span" class="ml-auto text-right">~15 minutes</CommonButtonLabel>
+          <CommonButtonLabel v-if="!isCustomNode" as="span" class="ml-auto text-right">{{
+            $t("transaction.estimatedTimeMinutes", { minutes: 15 })
+          }}</CommonButtonLabel>
         </div>
         <transition v-bind="TransitionAlertScaleInOutTransition" mode="out-in">
           <CommonAlert
@@ -195,8 +202,9 @@
             :icon="ExclamationTriangleIcon"
           >
             <p>
-              Insufficient <span class="font-medium">{{ feeToken?.symbol }}</span> balance on
-              {{ destinations.ethereum.label }} to cover the fee. We recommend having at least
+              {{ $t("transaction.insufficient") }} <span class="font-medium">{{ feeToken?.symbol }}</span>
+              {{ $t("transaction.balanceOn") }} {{ destinations.ethereum.label }} {{ $t("transaction.toCoverTheFee") }}.
+              {{ $t("transaction.weRecommendHavingAtLeast") }}
               <span class="font-medium"
                 >{{
                   feeToken?.price
@@ -205,9 +213,11 @@
                 }}
                 {{ feeToken?.symbol }}</span
               >
-              on {{ eraNetwork.l1Network?.name ?? "L1" }} for deposit.
+              {{ $t("transaction.on") }} {{ eraNetwork.l1Network?.name ?? "L1" }} {{ $t("transaction.forDeposit") }}.
             </p>
-            <NuxtLink :to="{ name: 'receive-methods' }" class="alert-link">Receive funds</NuxtLink>
+            <NuxtLink :to="{ name: 'receive-methods' }" class="alert-link">{{
+              $t("transaction.receiveFunds")
+            }}</NuxtLink>
           </CommonAlert>
           <CommonAlert
             v-else-if="!enoughBalanceToCoverFee"
@@ -216,17 +226,20 @@
             :icon="ExclamationTriangleIcon"
           >
             <p>
-              Insufficient <span class="font-medium">{{ feeToken?.symbol }}</span> balance on
-              <span class="font-medium">{{ destinations.ethereum.label }}</span> to cover the fee
+              {{ $t("transaction.insufficient") }} <span class="font-medium">{{ feeToken?.symbol }}</span>
+              {{ $t("transaction.balanceOn") }} <span class="font-medium">{{ destinations.ethereum.label }}</span>
+              {{ $t("transaction.toCoverTheFee") }}.
             </p>
-            <NuxtLink :to="{ name: 'receive-methods' }" class="alert-link">Receive funds</NuxtLink>
+            <NuxtLink :to="{ name: 'receive-methods' }" class="alert-link">{{
+              $t("transaction.receiveFunds")
+            }}</NuxtLink>
           </CommonAlert>
         </transition>
         <CommonErrorBlock v-if="allowanceRequestError" class="mt-2" @try-again="requestAllowance">
-          Checking allowance error: {{ allowanceRequestError.message }}
+          {{ $t("transaction.checkingAllowanceError", { message: allowanceRequestError.message }) }}
         </CommonErrorBlock>
         <CommonErrorBlock v-else-if="setAllowanceError" class="mt-2" @try-again="setTokenAllowance">
-          Allowance approval error: {{ setAllowanceError.message }}
+          {{ $t("transaction.allowanceApprovalError", { message: setAllowanceError.message }) }}
         </CommonErrorBlock>
         <CommonHeightTransition
           v-if="step === 'form'"
@@ -239,7 +252,7 @@
               :description="`You can now proceed to deposit`"
             >
               <template #label>
-                {{ selectedToken?.symbol }} allowance approved
+                {{ $t("transaction.allowanceApproved", { token: selectedToken?.symbol }) }}
                 <template v-for="allowanceReceipt in setAllowanceReceipts" :key="allowanceReceipt.transactionHash">
                   <a
                     v-if="l1BlockExplorerUrl"
@@ -247,7 +260,7 @@
                     target="_blank"
                     class="inline-flex items-center gap-1 underline underline-offset-2"
                   >
-                    View on Explorer
+                    {{ $t("transaction.viewOnExplorer") }}
                     <ArrowTopRightOnSquareIcon class="h-6 w-6" aria-hidden="true" />
                   </a>
                 </template>
@@ -260,7 +273,7 @@
             </DestinationItem>
             <DestinationItem v-else as="div">
               <template #label>
-                Approve {{ selectedToken?.symbol }} allowance
+                {{ $t("transaction.approve", { token: selectedToken?.symbol }) }}
                 <template
                   v-for="allowanceTransactionHash in setAllowanceTransactionHashes"
                   :key="allowanceTransactionHash"
@@ -271,23 +284,23 @@
                     target="_blank"
                     class="inline-flex items-center gap-1 underline underline-offset-2"
                   >
-                    View on Explorer
+                    {{ $t("transaction.viewOnExplorer") }}
                     <ArrowTopRightOnSquareIcon class="h-6 w-6" aria-hidden="true" />
                   </a>
                 </template>
               </template>
               <template #underline>
-                Before depositing you need to give our bridge permission to spend specified amount of
+                {{ $t("transaction.underline1") }}
                 {{ selectedToken?.symbol }}.
                 <span v-if="allowance && allowance !== 0n"
-                  >You can deposit up to
+                  >{{ $t("transaction.underline2") }}
                   <CommonButtonLabel variant="light" @click="setAmountToCurrentAllowance()">
                     {{ parseTokenAmount(allowance!, selectedToken!.decimals) }}
                   </CommonButtonLabel>
-                  {{ selectedToken!.symbol }} without approving a new allowance.
+                  {{ selectedToken!.symbol }} {{ $t("transaction.underline3") }}
                 </span>
                 <CommonButtonLabel variant="light" as="a" :href="TOKEN_ALLOWANCE" target="_blank">
-                  Learn more
+                  {{ $t("transaction.learnMore") }}
                 </CommonButtonLabel>
               </template>
               <template #image>
@@ -311,15 +324,15 @@
                   @click="setTokenAllowance()"
                 >
                   <transition v-bind="TransitionPrimaryButtonText" mode="out-in">
-                    <span v-if="setAllowanceStatus === 'processing'">Processing...</span>
-                    <span v-else-if="setAllowanceStatus === 'waiting-for-signature'"
-                      >Waiting for allowance approval confirmation</span
-                    >
+                    <span v-if="setAllowanceStatus === 'processing'">{{ $t("transaction.processing") }}...</span>
+                    <span v-else-if="setAllowanceStatus === 'waiting-for-signature'">{{
+                      $t("allowance.waitingForApproval")
+                    }}</span>
                     <span v-else-if="setAllowanceStatus === 'sending'" class="flex items-center">
                       <CommonSpinner class="mr-2 h-6 w-6" />
-                      Approving allowance...
+                      {{ $t("transaction.approvingAllowance") }}...
                     </span>
-                    <span v-else>Approve {{ selectedToken?.symbol }} allowance</span>
+                    <span v-else>{{ $t("transaction.approve", { token: selectedToken?.symbol }) }}</span>
                   </transition>
                 </CommonButton>
                 <TransactionButtonUnderlineConfirmTransaction
@@ -334,7 +347,7 @@
                 class="w-full"
                 @click="buttonContinue()"
               >
-                Continue
+                {{ $t("common.continue") }}
               </CommonButton>
             </template>
             <template v-else-if="step === 'confirm'">
@@ -346,18 +359,22 @@
                     :icon="ExclamationTriangleIcon"
                   >
                     <p>
-                      The inputted amount is higher than the recommended maximum amount. This means your transaction
-                      might fail.
+                      {{ $t("transaction.exceedsMaxAmountError") }}
                     </p>
-                    <button type="button" class="alert-link" @click="step = 'form'">Go back</button>
+                    <button type="button" class="alert-link" @click="step = 'form'">
+                      {{ $t("transaction.goBack") }}
+                    </button>
                   </CommonAlert>
                   <CommonAlert v-else-if="continueButtonDisabled" variant="error" :icon="ExclamationTriangleIcon">
                     <p>
-                      The fee has changed since the last estimation. Insufficient
-                      <span class="font-medium">{{ selectedToken?.symbol }}</span> balance to pay for transaction.
-                      Please go back and adjust the amount to proceed.
+                      {{ $t("transaction.continueButtonDisabledError1") }}
+                      <span class="font-medium">{{ selectedToken?.symbol }}</span>
+                      {{ $t("transaction.continueButtonDisabledError2") }}.
+                      {{ $t("transaction.goBackAndAdjustAmount") }}
                     </p>
-                    <button type="button" class="alert-link" @click="step = 'form'">Go back</button>
+                    <button type="button" class="alert-link" @click="step = 'form'">
+                      {{ $t("transaction.goBack") }}
+                    </button>
                   </CommonAlert>
                 </div>
               </transition>
@@ -368,9 +385,11 @@
                 @click="buttonContinue()"
               >
                 <transition v-bind="TransitionPrimaryButtonText" mode="out-in">
-                  <span v-if="transactionStatus === 'processing'">Processing...</span>
-                  <span v-else-if="transactionStatus === 'waiting-for-signature'">Waiting for confirmation</span>
-                  <span v-else>Bridge now</span>
+                  <span v-if="transactionStatus === 'processing'">{{ $t("transaction.processing") }}...</span>
+                  <span v-else-if="transactionStatus === 'waiting-for-signature'">{{
+                    $t("transaction.waitingForConfirmation")
+                  }}</span>
+                  <span v-else>{{ $t("bridge.bridgeNow") }}</span>
                 </transition>
               </CommonButton>
               <TransactionButtonUnderlineConfirmTransaction :opened="transactionStatus === 'waiting-for-signature'" />

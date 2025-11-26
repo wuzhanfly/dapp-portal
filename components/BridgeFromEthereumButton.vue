@@ -11,15 +11,20 @@
       variant="primary"
     >
       <template #label>
-        <span class="text-white">Bridge from {{ eraNetwork.l1Network?.name }}</span>
+        <span class="text-white"> {{ $t("assets.bridgeFrom", { network: eraNetwork.l1Network?.name }) }}</span>
       </template>
       <template #underline>
         <span v-if="!displayTotalTokens || !balance" class="text-white">
-          Receive tokens from your {{ eraNetwork.l1Network?.name }} account
+          {{ $t("assets.receiveFromNetwork", { network: eraNetwork.l1Network?.name }) }}
         </span>
         <span v-else class="text-white">
-          You have {{ balance.length }} token{{ balance.length > 1 ? "s" : "" }} worth
-          {{ formatPricePretty(totalTokenBalance) }} that you can receive from {{ eraNetwork.l1Network?.name }}
+          {{
+            $t("assets.receiveFromNetwork2", {
+              balanceLen: balance.length,
+              balanceTotal: formatPricePretty(totalTokenBalance),
+              network: eraNetwork.l1Network?.name,
+            })
+          }}
         </span>
       </template>
     </DestinationItem>

@@ -2,6 +2,7 @@
   <TokenSelectModal
     v-model:opened="selectTokenModalOpened"
     v-model:token-address="selectedTokenAddress"
+    :title="$t('tokenSelect.chooseToken')"
     :loading="configInProgress"
     :tokens="tokensList"
   />

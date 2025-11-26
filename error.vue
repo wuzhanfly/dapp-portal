@@ -5,7 +5,7 @@
       <h1 class="error-status-code">{{ error.statusCode }}</h1>
       <p v-if="error.statusCode !== 404" class="error-message">{{ sanitizedErrorMessage }}</p>
       <CommonButton as="RouterLink" :to="{ name: 'bridge' }" class="mt-4" variant="primary">
-        Back to Bridge
+        {{ $t("common.backToBridge") }}
       </CommonButton>
     </div>
   </div>

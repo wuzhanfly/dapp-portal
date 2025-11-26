@@ -12,7 +12,7 @@
               class="h-6 w-6"
             />
           </div>
-          <div>Your account {{ shortenAddress(fromAddress) }}</div>
+          <div>{{ $t("transaction.yourAccount", { address: shortenAddress(fromAddress) }) }}</div>
         </div>
         <div class="info-column right">
           <div class="flex flex-col items-center justify-center gap-1 md:flex-row">
@@ -24,7 +24,10 @@
               class="h-6 w-6"
             />
           </div>
-          <div>{{ isSameAddress ? "Your account" : "Another account" }} {{ shortenAddress(toAddress) }}</div>
+          <div>
+            {{ isSameAddress ? $t("transaction.yourAccount") : $t("transaction.anotherAccount") }}
+            {{ shortenAddress(toAddress) }}
+          </div>
         </div>
       </template>
       <template v-else>
@@ -35,7 +38,7 @@
             </template>
           </AddressAvatar>
           <div>
-            From your account
+            {{ $t("transaction.fromYourAccount") }}
             <br />
             {{ shortenAddress(fromAddress) }}
           </div>
@@ -47,7 +50,7 @@
             </template>
           </AddressAvatar>
           <div>
-            {{ isSameAddress ? "To your account" : "To another account" }}
+            {{ isSameAddress ? $t("transaction.toYourAccount") : $t("transaction.toAnotherAccount") }}
             <br />
             {{ shortenAddress(toAddress) }}
           </div>

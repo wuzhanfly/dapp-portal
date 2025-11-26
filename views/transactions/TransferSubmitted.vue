@@ -5,18 +5,18 @@
     </h1>
     <CommonHeightTransition :opened="!transaction.info.completed">
       <p class="mb-4 text-center">
-        Your funds will be available at the
+        {{ $t("transactions.completed1") }}
         <a
           v-if="blockExplorerUrl"
           :href="`${blockExplorerUrl}/address/${transaction!.to.address}`"
           target="_blank"
           class="font-medium underline underline-offset-2"
-          >destination address</a
+          >{{ $t("transactions.completed2") }}</a
         >
-        <span v-else>destination address</span>
-        after the transaction is committed on the
+        <span v-else>{{ $t("transactions.completed2") }}</span>
+        {{ $t("transactions.completed3") }}
         <span class="font-medium">{{ transaction.from.destination.label }}</span
-        >. You are free to close this page.
+        >{{ $t("transactions.completed4") }}
       </p>
     </CommonHeightTransition>
     <TransactionProgress
@@ -32,7 +32,7 @@
     />
 
     <CommonButton as="RouterLink" :to="{ name: 'assets' }" class="mt-block-gap" variant="primary">
-      Go to Assets page
+      {{ $t("bridge.goToAssets") }}
     </CommonButton>
     <CommonButton
       size="sm"
@@ -41,7 +41,7 @@
       class="mx-auto mt-block-gap w-max"
       @click="makeAnotherTransaction && makeAnotherTransaction()"
     >
-      Make another transaction
+      {{ $t("transactions.makeAnotherTransaction") }}
     </CommonButton>
   </div>
 </template>

@@ -1,14 +1,14 @@
 <template>
   <div>
     <NetworkDeprecationAlert />
-    <PageTitle>Transfers</PageTitle>
+    <PageTitle>{{ $t("common.transfers") }}</PageTitle>
 
     <template v-if="!isConnected">
-      <ConnectWalletBlock>Connect wallet to view your latest transfers on {{ eraNetwork.name }}</ConnectWalletBlock>
+      <ConnectWalletBlock>{{ $t("transfers.connectToView", { network: eraNetwork.name }) }}</ConnectWalletBlock>
     </template>
     <template v-else>
       <template v-if="!loading && recentBridgeOperations.length">
-        <TypographyCategoryLabel>Recent bridge operations</TypographyCategoryLabel>
+        <TypographyCategoryLabel>{{ $t("transfers.recentBridgeOperations") }}</TypographyCategoryLabel>
         <div v-if="actionRequiredBridgeTransactions.length" class="space-y-block-gap">
           <CommonCardWithLineButtons v-for="(item, index) in actionRequiredBridgeTransactions" :key="index">
             <TransactionTransferWithdrawalLineItem
@@ -42,7 +42,9 @@
           />
         </CommonCardWithLineButtons>
 
-        <TypographyCategoryLabel v-if="!hasOnlyRecentBridgeOperations">Completed transfers</TypographyCategoryLabel>
+        <TypographyCategoryLabel v-if="!hasOnlyRecentBridgeOperations">{{
+          $t("transfers.completedTransfers")
+        }}</TypographyCategoryLabel>
       </template>
 
       <div v-if="loading">
@@ -52,7 +54,7 @@
       </div>
       <CommonCardWithLineButtons v-else-if="recentTransfersRequestError">
         <CommonErrorBlock @try-again="fetch">
-          Loading transfers error: {{ recentTransfersRequestError.message }}
+          {{ $t("errors.loadingTransfersError", { errorMsg: recentTransfersRequestError.message }) }}
         </CommonErrorBlock>
       </CommonCardWithLineButtons>
       <div v-else-if="displayedTransfers.length">
@@ -67,7 +69,7 @@
         <template v-if="canLoadMore && !previousTransfersRequestInProgress">
           <CommonCardWithLineButtons v-if="previousTransfersRequestError">
             <CommonErrorBlock @try-again="fetchMore">
-              Loading transfers error: {{ previousTransfersRequestError.message }}
+              {{ $t("errors.loadingTransfersError", { errorMsg: previousTransfersRequestError.message }) }}
             </CommonErrorBlock>
           </CommonCardWithLineButtons>
           <CommonButton v-else ref="loadMoreEl" variant="primary" class="mx-auto mt-4">Load more</CommonButton>
@@ -75,7 +77,7 @@
       </div>
       <CommonCardWithLineButtons v-else-if="!hasOnlyRecentBridgeOperations">
         <CommonEmptyBlock>
-          At the moment you don't have any transfers on
+          {{ $t("transaction.momentNoTransfers") }}
           <span class="font-medium">{{ destinations.era.label }}</span>
         </CommonEmptyBlock>
       </CommonCardWithLineButtons>

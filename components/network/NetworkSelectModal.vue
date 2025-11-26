@@ -29,7 +29,7 @@
           </CommonLineButtonsGroup>
         </div>
         <p v-if="search && !displayedGroups.length" class="mt-block-padding-1/2 text-center">
-          No chains found for "{{ search }}"
+          {{ $t("network.noChainsFound", { search }) }}
         </p>
         <slot name="body-bottom" />
       </div>

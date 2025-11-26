@@ -2,7 +2,7 @@
   <CommonContentBlock class="border dark:border-neutral-900">
     <div class="-mt-3 flex w-full flex-col gap-6 sm:flex-row">
       <div class="flex w-full flex-col sm:w-1/2">
-        <span class="mb-2 font-bold">You pay (USD)</span>
+        <span class="mb-2 font-bold">{{ $t("onRamp.youPay") }}</span>
         <template v-if="step === 'processing'">
           <div v-if="order" class="flex items-center justify-stretch gap-4">
             <span class="py-4 text-3xl">{{ formatFiat(order.pay.fiatAmount, order.pay.currency) }}</span>
@@ -25,14 +25,14 @@
               <span class="inline-block align-middle text-lg leading-6 text-gray-700 dark:text-white">USD</span>
             </div> -->
           </div>
-          <div v-if="isNaN(+fiatAmount)">Input is not a valid number.</div>
+          <div v-if="isNaN(+fiatAmount)">{{ $t("onRamp.inputNotValidNumber") }}</div>
           <div v-if="+fiatAmount <= 30" class="pl-2 text-xs text-neutral-300">
-            Add $30+ to unlock more provider options.
+            {{ $t("onRamp.addFundsNotice") }}
           </div>
         </template>
       </div>
       <div class="flex w-full flex-col sm:w-1/2">
-        <span class="mb-2 font-bold">You'll receive</span>
+        <span class="mb-2 font-bold">{{ $t("onRamp.youReceive") }}</span>
         <template v-if="step === 'processing'">
           <div v-if="selectedToken" class="flex gap-4 p-3">
             <TokenImage

@@ -7,7 +7,7 @@
         <ChevronLeftIcon class="h-6 w-6" />
       </div>
     </CommonButtonLabel>
-    <h3 class="grow text-lg">Transactions</h3>
+    <h3 class="grow text-lg">{{ $t("onRamp.transactions") }}</h3>
   </div>
   <template v-if="routes">
     <div v-for="route in routes" :key="route.id" class="my-1.5">

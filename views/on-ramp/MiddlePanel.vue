@@ -14,10 +14,12 @@
         >
           <div v-for="view in transitionViews" v-show="activeView === view" :key="view">
             <LoadingTransition v-if="view === 'loading'" />
-            <div v-if="view === 'error'" class="m-4 text-center">An error has occurred. Please try again.</div>
+            <div v-if="view === 'error'" class="m-4 text-center">{{ $t("onRamp.errorOccurred") }}</div>
             <QuotesList v-if="view === 'quotes'" />
             <div v-if="view === 'connect' && !isConnected" class="flex flex-col items-center p-4">
-              <CommonButton variant="primary" @click="openModal">Connect wallet to continue</CommonButton>
+              <CommonButton variant="primary" @click="openModal">{{
+                $t("onRamp.connectWalletToContinue")
+              }}</CommonButton>
             </div>
           </div>
         </TransitionGroup>
