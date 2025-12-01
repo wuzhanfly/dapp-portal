@@ -12,7 +12,7 @@ window.config = {
         name: "ZK BSC Chain",
         rpcUrl: "https://testnet-node-0.maichain.org/",
         blockExplorerUrl: "https://testnet.maiscan.org/",
-        blockExplorerApi: "https://testnet-bridge.maichain.org/api",
+        blockExplorerApi: "http://54.255.170.191:3002",
         l1Network: {
           id: 97,
           name: "BSC Testnet",

@@ -53,6 +53,7 @@ export type ZkSyncNetwork = {
   nativeTokenBridgingOnly?: boolean;
   getTokens?: () => Token[] | Promise<Token[]>; // If blockExplorerApi is specified, tokens will be fetched from there. Otherwise, this function will be used.
   isPrividium?: boolean;
+  faucetContract?: string; // L1 Faucet contract address for testnet
 };
 
 // See the official documentation on running a local ZKsync node: https://era.zksync.io/docs/tools/testing/
@@ -231,6 +232,8 @@ const publicChains: ZkSyncNetwork[] = [
       symbol: "BNB",
       decimals: 18,
     },
+    // Faucet 合约地址 (L1)
+    faucetContract: "0xbd82c02831226b0cFD91Ce7A352056B41Ad364b0",
     getTokens: () => [
       {
         address: "0x000000000000000000000000000000000000800A",

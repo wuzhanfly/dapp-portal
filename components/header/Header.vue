@@ -19,6 +19,10 @@
         <BanknotesIcon class="link-icon" aria-hidden="true" />
         {{ $t("common.onRamp") }}
       </NuxtLink>
+      <NuxtLink v-if="selectedNetwork.displaySettings?.isTestnet" class="link-item" :to="{ name: 'faucet' }">
+        <BeakerIcon class="link-icon" aria-hidden="true" />
+        Faucet
+      </NuxtLink>
       <NuxtLink
         class="link-item"
         :to="{ name: 'bridge' }"
@@ -84,6 +88,7 @@ import {
   SunIcon,
   WalletIcon,
   BanknotesIcon,
+  BeakerIcon,
 } from "@heroicons/vue/24/outline";
 
 import LanguageSwitcher from "@/components/common/LanguageSwitcher.vue";

@@ -1,0 +1,308 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_tokenAddress", "type": "address" },
+      { "internalType": "uint256", "name": "_amountPerClaim", "type": "uint256" },
+      { "internalType": "uint256", "name": "_cooldown", "type": "uint256" },
+      { "internalType": "uint256", "name": "_maxClaims", "type": "uint256" },
+      { "internalType": "address", "name": "_initialOwner", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }],
+    "name": "OwnableInvalidOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "account", "type": "address" }],
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "oldAmount", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "newAmount", "type": "uint256" }
+    ],
+    "name": "AmountPerClaimUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "oldCooldown", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "newCooldown", "type": "uint256" }
+    ],
+    "name": "CooldownUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "indexed": true, "internalType": "address", "name": "owner", "type": "address" }
+    ],
+    "name": "EmergencyWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "oldMax", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "newMax", "type": "uint256" }
+    ],
+    "name": "MaxClaimsUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "name": "TokensClaimed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "indexed": true, "internalType": "address", "name": "recipient", "type": "address" }
+    ],
+    "name": "TokensWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "internalType": "address", "name": "user", "type": "address" }],
+    "name": "WhitelistAddressAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "internalType": "address", "name": "user", "type": "address" }],
+    "name": "WhitelistAddressRemoved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "bool", "name": "enabled", "type": "bool" }],
+    "name": "WhitelistToggled",
+    "type": "event"
+  },
+  {
+    "inputs": [{ "internalType": "address[]", "name": "users", "type": "address[]" }],
+    "name": "addToWhitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "amountPerClaim",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
+    "name": "canUserClaim",
+    "outputs": [
+      { "internalType": "bool", "name": "canClaim", "type": "bool" },
+      { "internalType": "uint256", "name": "timeRemaining", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claimCooldown",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "claimRecords",
+    "outputs": [
+      { "internalType": "uint256", "name": "lastClaimTime", "type": "uint256" },
+      { "internalType": "uint256", "name": "totalClaims", "type": "uint256" },
+      { "internalType": "uint256", "name": "totalAmount", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claimTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "emergencyWithdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }],
+    "name": "fundFaucet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getFaucetBalance",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getStats",
+    "outputs": [
+      { "internalType": "uint256", "name": "distributed", "type": "uint256" },
+      { "internalType": "uint256", "name": "claimers", "type": "uint256" },
+      { "internalType": "uint256", "name": "faucetBalance", "type": "uint256" },
+      { "internalType": "uint256", "name": "perClaimAmount", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
+    "name": "getUserClaimInfo",
+    "outputs": [
+      { "internalType": "uint256", "name": "lastClaimTime", "type": "uint256" },
+      { "internalType": "uint256", "name": "totalClaims", "type": "uint256" },
+      { "internalType": "uint256", "name": "totalAmount", "type": "uint256" },
+      { "internalType": "uint256", "name": "nextAvailableClaim", "type": "uint256" },
+      { "internalType": "bool", "name": "isEligible", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxClaimsPerAddress",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address[]", "name": "users", "type": "address[]" }],
+    "name": "removeFromWhitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "newAmount", "type": "uint256" }],
+    "name": "setAmountPerClaim",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "newCooldown", "type": "uint256" }],
+    "name": "setCooldown",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "newMax", "type": "uint256" }],
+    "name": "setMaxClaims",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bool", "name": "enabled", "type": "bool" }],
+    "name": "toggleWhitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokenContract",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalClaimers",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalDistributed",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "whitelist",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "whitelistEnabled",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "address", "name": "recipient", "type": "address" }
+    ],
+    "name": "withdrawTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
