@@ -7,19 +7,19 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 /**
  * @title AdvancedERC20Faucet
- * @dev 高级ERC20水龙头合约，具备防滥用机制
+ * @dev ERC20水龙头合约，具备防滥用机制
  * @notice 用于向用户分发指定ERC20代币，每个地址有冷却时间和领取次数限制
  */
 contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     // ====================== 状态变量 ======================
     
-    // 目标ERC20代币合约（不可变，部署后无法更改）
+    // 目标ERC20代币合约
     address public immutable tokenContract;
     
-    // 单次领取数量（基于代币的小数位数）
+    // 单次领取数量
     uint256 public amountPerClaim;
     
-    // 冷却时间（秒）
+    // 冷却时间
     uint256 public claimCooldown;
     
     // 每个地址最大领取次数
@@ -35,7 +35,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     // 地址到领取记录的映射
     mapping(address => ClaimRecord) public claimRecords;
     
-    // 白名单功能（可选）
+    // 白名单功能
     mapping(address => bool) public whitelist;
     bool public whitelistEnabled;
     
@@ -69,8 +69,8 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
         uint256 _amountPerClaim,
         uint256 _cooldown,
         uint256 _maxClaims,
-        address _initialOwner  // 添加所有者参数
-    ) Ownable(_initialOwner) {  // 传递所有者给 Ownable 构造函数
+        address _initialOwner
+    ) Ownable(_initialOwner) {
         require(_tokenAddress != address(0), "Token address cannot be zero");
         require(_amountPerClaim > 0, "Amount per claim must be > 0");
         require(_initialOwner != address(0), "Owner address cannot be zero");
@@ -133,7 +133,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
         emit TokensClaimed(user, amountPerClaim, block.timestamp);
     }
     
-    // ====================== 查询功能 ======================
+    // ====================== 查询 ======================
     
     /**
      * @dev 检查用户是否可以领取
@@ -216,10 +216,10 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
         perClaimAmount = amountPerClaim;
     }
     
-    // ====================== 管理员功能 ======================
+    // ====================== 管理员 ======================
     
     /**
-     * @dev 设置单次领取数量（仅所有者）
+     * @dev 设置单次领取数量
      */
     function setAmountPerClaim(uint256 newAmount) external onlyOwner {
         require(newAmount > 0, "Amount must be > 0");
@@ -229,7 +229,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev 设置冷却时间（仅所有者）
+     * @dev 设置冷却时间
      */
     function setCooldown(uint256 newCooldown) external onlyOwner {
         uint256 oldCooldown = claimCooldown;
@@ -238,7 +238,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev 设置最大领取次数（仅所有者）
+     * @dev 设置最大领取次数
      */
     function setMaxClaims(uint256 newMax) external onlyOwner {
         uint256 oldMax = maxClaimsPerAddress;
@@ -247,7 +247,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev 切换白名单模式（仅所有者）
+     * @dev 切换白名单模式
      */
     function toggleWhitelist(bool enabled) external onlyOwner {
         whitelistEnabled = enabled;
@@ -255,7 +255,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev 添加地址到白名单（仅所有者）
+     * @dev 添加地址到白名单
      */
     function addToWhitelist(address[] calldata users) external onlyOwner {
         for (uint256 i = 0; i < users.length; i++) {
@@ -265,7 +265,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev 从白名单移除地址（仅所有者）
+     * @dev 从白名单移除地址
      */
     function removeFromWhitelist(address[] calldata users) external onlyOwner {
         for (uint256 i = 0; i < users.length; i++) {
@@ -275,7 +275,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev 向水龙头合约充值代币（任何人都可以调用）
+     * @dev 向水龙头合约充值代币
      */
     function fundFaucet(uint256 amount) external {
         require(amount > 0, "Amount must be > 0");
@@ -284,7 +284,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev 提取代币到指定地址（仅所有者，用于回收多余代币）
+     * @dev 提取代币到指定地址
      */
     function withdrawTokens(uint256 amount, address recipient) external onlyOwner {
         require(amount > 0, "Amount must be > 0");
@@ -300,7 +300,7 @@ contract AdvancedERC20Faucet is Ownable, ReentrancyGuard {
     }
     
     /**
-     * @dev 紧急提取所有代币（仅所有者）
+     * @dev 紧急提取所有代币
      */
     function emergencyWithdraw() external onlyOwner {
         uint256 balance = IERC20(tokenContract).balanceOf(address(this));

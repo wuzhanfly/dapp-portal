@@ -92,6 +92,22 @@ check_prerequisites() {
         exit 1
     fi
     
+    # Check if Dockerfile.bsc exists
+    if [ ! -f "Dockerfile.bsc" ]; then
+        print_error "Dockerfile.bsc not found in current directory!"
+        exit 1
+    fi
+    
+    # Check if config.js exists
+    if [ ! -f "config.js" ]; then
+        print_warning "config.js not found. Deployment package will not include configuration."
+    fi
+    
+    # Check if .env.production exists
+    if [ ! -f ".env.production" ]; then
+        print_warning ".env.production not found. Deployment package will not include environment variables."
+    fi
+    
     print_success "Prerequisites check passed!"
 }
 
@@ -152,17 +168,31 @@ create_deployment_package() {
     
     # Copy necessary files
     cp "$EXPORT_FILE" "$PACKAGE_DIR/"
-    cp .env.production "$PACKAGE_DIR/"
-    cp -r docker/ "$PACKAGE_DIR/" 2>/dev/null || true
     
-    # Create deployment-specific docker-compose file (without build section)
+    # Copy config.js if exists
+    if [ -f "config.js" ]; then
+        cp config.js "$PACKAGE_DIR/"
+    fi
+    
+    # Copy .env.production if exists
+    if [ -f ".env.production" ]; then
+        cp .env.production "$PACKAGE_DIR/"
+    fi
+    
+    # Copy docker directory if exists
+    if [ -d "docker" ]; then
+        cp -r docker/ "$PACKAGE_DIR/"
+    fi
+    
+    # Create deployment-specific docker-compose file
     cat > "$PACKAGE_DIR/docker-compose.bsc.yml" << EOF
 services:
   zksync-portal-bsc:
     image: ${IMAGE_NAME}:${IMAGE_TAG}
     container_name: zksync-portal-bsc
-    ports:
-      - "3000:3000"
+    network_mode: "host"
+    volumes:
+      - ./config.js:/usr/share/nginx/html/config.js:ro
     environment:
       - NODE_ENV=production
       - NODE_TYPE=hyperchain
@@ -173,18 +203,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.zksync-portal.rule=Host(\`portal.yourdomain.com\`)"
-      - "traefik.http.routers.zksync-portal.tls=true"
-      - "traefik.http.routers.zksync-portal.tls.certresolver=letsencrypt"
-      - "traefik.http.services.zksync-portal.loadbalancer.server.port=3000"
-    networks:
-      - zksync-network
-
-networks:
-  zksync-network:
-    driver: bridge
 EOF
     
     # Create deployment script for server

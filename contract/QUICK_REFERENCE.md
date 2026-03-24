@@ -27,7 +27,7 @@ await faucetStore.claimTokens();
 ## 📋 合约信息
 
 ```
-地址: 0xbd82c02831226b0cFD91Ce7A352056B41Ad364b0
+地址: 0x04e6A44ECea4eeD011e1378E7fc5eBaCba0F8449
 网络: BSC Testnet (97)
 代币: MAC (0x68da710056e0491B436c5ef6A1DFB246b2E882bC)
 ```
@@ -235,7 +235,7 @@ const handleClaim = async () => {
 
 ---
 
-## 🐛 调试技巧
+## 🐛 调试
 
 ### 查看合约状态
 
@@ -292,26 +292,24 @@ const avgClaims = Number(stats.distributed) / Number(stats.claimers) / Number(st
 - [合约源码](./AdvancedERC20Faucet.sol)
 - [合约 ABI](./AdvancedERC20FaucetABI.json)
 - [详细文档](./README.md)
-- [集成指南](../FAUCET_INTEGRATION.md)
-- [模块总结](../CONTRACT_MODULE_SUMMARY.md)
-- [BSCScan](https://testnet.bscscan.com/address/0xbd82c02831226b0cFD91Ce7A352056B41Ad364b0)
+- [BSCScan](https://testnet.bscscan.com/address/0x04e6A44ECea4eeD011e1378E7fc5eBaCba0F8449)
 
 ---
 
-## 💬 常见问题
+## 💬 使用方法
 
-**Q: 如何添加新的 Faucet 合约?**
+**如何添加新的 Faucet 合约**
 ```typescript
 // 在 data/networks.ts 中添加
 faucetContract: "0x新合约地址"
 ```
 
-**Q: 如何修改领取数量?**
+**如何修改领取数量**
 ```bash
 cast send $FAUCET "setAmountPerClaim(uint256)" $NEW_AMOUNT --private-key $OWNER_KEY
 ```
 
-**Q: 如何查看用户领取历史?**
+** 如何查看用户领取历史**
 ```typescript
 const info = await faucetStore.requestUserClaimInfo();
 console.log({
@@ -320,7 +318,7 @@ console.log({
 });
 ```
 
-**Q: 如何禁用 Faucet?**
+** 如何禁用 Faucet**
 ```bash
 # 方法 1: 设置领取量为 0
 cast send $FAUCET "setAmountPerClaim(uint256)" 0 --private-key $OWNER_KEY
@@ -329,7 +327,3 @@ cast send $FAUCET "setAmountPerClaim(uint256)" 0 --private-key $OWNER_KEY
 cast send $FAUCET "emergencyWithdraw()" --private-key $OWNER_KEY
 ```
 
----
-
-**版本:** 1.0.0  
-**更新:** 2024-12-01

@@ -16,3 +16,5 @@ allure-results
 .env.local
 IFLOW.md
 iflow-docs
+scripts/*
+docker-exports

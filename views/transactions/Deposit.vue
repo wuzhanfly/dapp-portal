@@ -36,6 +36,22 @@
     <form v-else @submit.prevent="">
       <template v-if="step === 'form'">
         <TransactionWithdrawalsAvailableForClaimAlert />
+
+        <!-- WBNB Deposit Progress -->
+        <TransactionWBNBDepositProgress
+          v-if="isWBNBDeposit && wbnbStep"
+          :current-step="wbnbStep"
+          :wrap-tx-hash="wrapTxHash"
+          :approve-tx-hash="approveTxHash"
+          :deposit-tx-hash="depositTxHash"
+        />
+
+        <!-- WBNB Notice -->
+        <CommonAlert v-if="isWBNBDeposit" variant="info" :icon="InformationCircleIcon" class="mb-block-gap">
+          <p>💡 {{ $t("bridge.wbnbNotice1") }}</p>
+          <p class="mt-2">⚠️ {{ $t("bridge.wbnbNotice2") }}</p>
+        </CommonAlert>
+
         <EcosystemBlock
           v-if="eraNetwork.displaySettings?.showPartnerLinks && ecosystemBannerVisible"
           show-close-button
@@ -406,6 +422,7 @@ import {
   ArrowTopRightOnSquareIcon,
   CheckIcon,
   ExclamationTriangleIcon,
+  InformationCircleIcon,
   LockClosedIcon,
 } from "@heroicons/vue/24/outline";
 import { computedAsync } from "@vueuse/core";
@@ -418,6 +435,7 @@ import { useSentryLogger } from "@/composables/useSentryLogger";
 import useEcosystemBanner from "@/composables/zksync/deposit/useEcosystemBanner";
 import useFee from "@/composables/zksync/deposit/useFee";
 import useTransaction from "@/composables/zksync/deposit/useTransaction";
+import { WBNB_ADDRESS } from "@/composables/zksync/deposit/useWBNBDeposit";
 import { customBridgeTokens } from "@/data/customBridgeTokens";
 import { isCustomNode } from "@/data/networks";
 import DepositSubmitted from "@/views/transactions/DepositSubmitted.vue";
@@ -506,6 +524,17 @@ const tokenCustomBridge = computed(() => {
     (e) => eraNetwork.value.l1Network?.id === e.chainId && e.l1Address === selectedToken.value?.address
   );
   return customBridgeToken;
+});
+
+const isWBNBDeposit = computed(() => {
+  if (!isWBNBSupported.value || !selectedToken.value) {
+    return false;
+  }
+  return (
+    selectedToken.value.symbol === "BNB" ||
+    selectedToken.value.symbol === "WBNB" ||
+    selectedToken.value.address === WBNB_ADDRESS
+  );
 });
 const amountInputTokenAddress = computed({
   get: () => selectedToken.value?.address,
@@ -743,6 +772,11 @@ const {
   status: transactionStatus,
   error: transactionError,
   commitTransaction,
+  wbnbStep,
+  wrapTxHash,
+  approveTxHash,
+  depositTxHash,
+  isWBNBSupported,
 } = useTransaction(eraWalletStore.getL1Signer);
 const { recentlyBridged, ecosystemBannerVisible } = useEcosystemBanner();
 const { saveTransaction, waitForCompletion } = useZkSyncTransactionStatusStore();

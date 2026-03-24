@@ -3,8 +3,7 @@
 This directory contains smart contracts and their ABIs used in the dApp Portal.
 
 ## AdvancedERC20Faucet
-
-**Contract Address:** `0xbd82c02831226b0cFD91Ce7A352056B41Ad364b0` (BSC Testnet)
+**Contract Address:** `0x04e6A44ECea4eeD011e1378E7fc5eBaCba0F8449` (BSC Testnet)
 
 ### Overview
 
@@ -129,12 +128,3 @@ await faucetContract.setCooldown(newCooldownInSeconds);
 await faucetContract.setMaxClaims(newMaxClaims);
 ```
 
-### Links
-
-- [Contract on BSCScan](https://testnet.bscscan.com/address/0xbd82c02831226b0cFD91Ce7A352056B41Ad364b0)
-- [MAC Token on BSCScan](https://testnet.bscscan.com/token/0x68da710056e0491B436c5ef6A1DFB246b2E882bC)
-- [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts/)
-
-### License
-
-MIT License

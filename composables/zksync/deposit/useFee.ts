@@ -2,6 +2,7 @@ import { parseEther } from "ethers";
 import { utils } from "zksync-ethers";
 
 import { useSentryLogger } from "@/composables/useSentryLogger";
+import { WBNB_ADDRESS } from "@/composables/zksync/deposit/useWBNBDeposit";
 
 import type { Token, TokenAmount } from "@/types";
 import type { BigNumberish } from "ethers";
@@ -21,10 +22,16 @@ export default (tokens: Ref<Token[]>, balances: Ref<TokenAmount[] | undefined>) 
   const { requestProvider } = useZkSyncProviderStore();
   const { captureException } = useSentryLogger();
   const networkStore = useNetworkStore();
+  const { selectedNetwork } = storeToRefs(networkStore);
 
   // Check if current L1 network is BSC
   const isBscNetwork = computed(() => {
     return networkStore.selectedNetwork?.l1Network?.id === 97; // BSC Testnet
+  });
+
+  // Check if current network is a Base Token chain
+  const isBaseTokenChain = computed(() => {
+    return !!selectedNetwork.value.baseToken && !!selectedNetwork.value.bridgeContracts?.bridgehub;
   });
 
   let params = {
@@ -159,6 +166,23 @@ export default (tokens: Ref<Token[]>, balances: Ref<TokenAmount[] | undefined>) 
       l1GasLimit: BigInt(utils.L1_RECOMMENDED_MIN_ERC20_DEPOSIT_GAS_LIMIT),
     };
   };
+
+  const getBaseTokenTransactionFee = () => {
+    // Base Token chains need higher gas limit for approve + deposit
+    return {
+      l1GasLimit: BigInt(250000), // Approve (50k) + Bridgehub deposit (200k)
+      baseCost: BigInt("250000000000000"), // 0.00025 BNB base cost
+    };
+  };
+
+  const getWBNBTransactionFee = () => {
+    // WBNB needs: wrap (50k) + approve (50k) + deposit (200k)
+    return {
+      l1GasLimit: BigInt(300000), // Total gas for 3 steps
+      l2GasLimit: BigInt(550000), // L2 gas limit for WBNB deposit (SDK uses ~536856)
+      baseCost: BigInt("250000000000000"), // 0.00025 BNB for L2 execution
+    };
+  };
   const getGasPrice = async () => {
     try {
       const gasPrice = await retry(() => getPublicClient().getGasPrice());
@@ -192,7 +216,17 @@ export default (tokens: Ref<Token[]>, balances: Ref<TokenAmount[] | undefined>) 
       const isEthBasedChain = await provider.isEthBasedChain();
 
       try {
-        if (isBscNetwork.value) {
+        if (isBaseTokenChain.value) {
+          // Base Token chain: use special fee structure
+          fee.value = getBaseTokenTransactionFee();
+        } else if (
+          params.tokenAddress === utils.ETH_ADDRESS ||
+          params.tokenAddress?.toLowerCase() === "bnb" ||
+          params.tokenAddress === WBNB_ADDRESS
+        ) {
+          // WBNB deposit: use WBNB fee structure
+          fee.value = getWBNBTransactionFee();
+        } else if (isBscNetwork.value) {
           // For BSC network, always use ERC20 fee structure for better compatibility
           fee.value = getERC20TransactionFee();
         } else if (isEthBasedChain && params.tokenAddress === feeToken.value?.address) {

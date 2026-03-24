@@ -56,13 +56,16 @@ export const useZkSyncTokensStore = defineStore("zkSyncTokens", () => {
       };
     }
     if (!ethToken) {
+      // For BSC-based chains, the native token is BNB, not ETH
+      const isBscChain = eraNetwork.value.l1Network?.id === 97 || eraNetwork.value.l1Network?.id === 56;
+      
       ethToken = {
         address: ethL2TokenAddress,
         l1Address: utils.ETH_ADDRESS,
-        symbol: "ETH",
-        name: "Ether",
+        symbol: isBscChain ? "BNB" : "ETH",
+        name: isBscChain ? "BNB" : "Ether",
         decimals: 18,
-        iconUrl: "/img/eth.svg",
+        iconUrl: isBscChain ? "/img/bnb.svg" : "/img/eth.svg",
       };
     }
 
@@ -91,9 +94,15 @@ export const useZkSyncTokensStore = defineStore("zkSyncTokens", () => {
     const nonBaseOrEthTokens = allTokens.filter(
       (token) => token.address !== L2_BASE_TOKEN_ADDRESS && token.address !== ethL2TokenAddress
     );
+    
+    // For Base Token chains, include the native L1 token (BNB for BSC, ETH for Ethereum)
+    // Check if baseToken is different from ethToken
+    const shouldIncludeNativeToken = baseToken.address.toUpperCase() !== ethL2TokenAddress.toUpperCase();
+    
     return [
       baseToken,
-      ...(ethToken && baseToken.address.toUpperCase() !== ethToken.address.toUpperCase() ? [ethToken] : []),
+      // Include native L1 token (BNB/ETH) for Base Token chains
+      ...(shouldIncludeNativeToken && ethToken ? [ethToken] : []),
       ...nonBaseOrEthTokens,
     ].map((token) => ({
       ...token,

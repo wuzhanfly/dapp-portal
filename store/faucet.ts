@@ -8,7 +8,7 @@ import { wagmiConfig } from "@/data/wagmi";
 import type { Token } from "@/types";
 
 // Faucet 合约地址 (BSC Testnet)
-export const FAUCET_CONTRACT_ADDRESS = "0xbd82c02831226b0cFD91Ce7A352056B41Ad364b0" as Address;
+export const FAUCET_CONTRACT_ADDRESS = "0x04e6A44ECea4eeD011e1378E7fc5eBaCba0F8449" as Address;
 
 // Faucet 用户信息
 export type FaucetUserInfo = {

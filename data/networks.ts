@@ -54,6 +54,22 @@ export type ZkSyncNetwork = {
   getTokens?: () => Token[] | Promise<Token[]>; // If blockExplorerApi is specified, tokens will be fetched from there. Otherwise, this function will be used.
   isPrividium?: boolean;
   faucetContract?: string; // L1 Faucet contract address for testnet
+  baseToken?: {
+    l1Address: string;
+    l2Address: string;
+    symbol: string;
+    name: string;
+    decimals: number;
+    assetId?: string;
+  };
+  bridgeContracts?: {
+    bridgehub: string;
+    diamondProxy?: string;
+    sharedBridge?: string;
+    erc20Bridge?: string;
+    l1Nullifier?: string;
+    nativeTokenVault?: string;
+  };
 };
 
 // See the official documentation on running a local ZKsync node: https://era.zksync.io/docs/tools/testing/
@@ -206,7 +222,7 @@ const publicChains: ZkSyncNetwork[] = [
     name: "ZK BSC Chain",
     rpcUrl: "https://testnet-node-0.maichain.org",
     blockExplorerUrl: "https://testnet.maiscan.org",
-    blockExplorerApi: "http://54.255.170.191:3002",
+    blockExplorerApi: "https://testnet-bridge.maichain.org/api",
     displaySettings: {
       onramp: false,
       showPartnerLinks: false,
@@ -228,20 +244,29 @@ const publicChains: ZkSyncNetwork[] = [
       },
     },
     nativeCurrency: {
-      name: "Test BNB",
-      symbol: "BNB",
+      name: "tMai Token",
+      symbol: "tMai",
       decimals: 18,
     },
     // Faucet 合约地址 (L1)
-    faucetContract: "0xbd82c02831226b0cFD91Ce7A352056B41Ad364b0",
+    faucetContract: "0x04e6A44ECea4eeD011e1378E7fc5eBaCba0F8449",
     getTokens: () => [
       {
         address: "0x000000000000000000000000000000000000800A",
         l2Address: "0x000000000000000000000000000000000000800A",
-        symbol: "BNB",
-        name: "Test BNB",
+        symbol: "tMai",
+        name: "tMai Token",
         decimals: 18,
-        l1Address: "0x0000000000000000000000000000000000000000",
+        l1Address: "0xc42f240c256f5fb97346b9d69d10e2e1d77b2eba",
+        iconUrl: "/img/tmai.svg",
+      },
+      {
+        address: "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+        l2Address: "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd", // Will be updated after L2 deployment
+        symbol: "WBNB",
+        name: "Wrapped BNB",
+        decimals: 18,
+        l1Address: "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
         iconUrl: "/img/bnb.svg",
       },
       {

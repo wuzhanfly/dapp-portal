@@ -9,3 +9,4 @@ dist
 tests
 tailwind.config.js
 scripts/get-bsc-addresses.js
+test-base-token.js

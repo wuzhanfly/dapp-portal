@@ -1,7 +1,7 @@
 window.config = {
   app: {
     environment: "testnet",
-    name: "ZKsync Bridge",
+    name: "ZK BSC Bridge",
     version: "1.0.0",
   },
   hyperchains: [
@@ -12,7 +12,7 @@ window.config = {
         name: "ZK BSC Chain",
         rpcUrl: "https://testnet-node-0.maichain.org/",
         blockExplorerUrl: "https://testnet.maiscan.org/",
-        blockExplorerApi: "http://54.255.170.191:3002",
+        blockExplorerApi: "https://testnet-bridge.maichain.org/api",
         l1Network: {
           id: 97,
           name: "BSC Testnet",
@@ -24,14 +24,10 @@ window.config = {
           },
           rpcUrls: {
             default: {
-              http: [
-                "https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c",
-              ],
+              http: ["https://bsc-testnet.bnbchain.org"],
             },
             public: {
-              http: [
-                "https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c",
-              ],
+              http: ["https://bsc-testnet-dataseed.bnbchain.org"],
             },
           },
           blockExplorers: {
@@ -46,15 +42,47 @@ window.config = {
           showPartnerLinks: false,
           isTestnet: true,
         },
+        baseToken: {
+          l1Address: "0xc42f240c256f5fb97346b9d69d10e2e1d77b2eba",
+          l2Address: "0x000000000000000000000000000000000000800a",
+          symbol: "tMai",
+          name: "tMai Token",
+          decimals: 18,
+          assetId: "0x4e73a994364cf4a1ea7961da544dd28b6b85d8b03ff387ea0a3732438a6c7bee",
+        },
+        bridgeContracts: {
+          bridgehub: "0xf07b8aa29e38d6014db87497ddc8b7e3a1cf465d",
+          diamondProxy: "0x428ef545e2ee1f51512ce05ac22632a74efbe008",
+          sharedBridge: "0xc3a77c9fef8f14f1f39760cc2376f1eb8d60be4a",
+          erc20Bridge: "0xaed878b4f465fa5cd1f64c35aa5a340e2506febd",
+          l1Nullifier: "0x9e36fac02abd87f49a9229b98d091997a3a6c668",
+          nativeTokenVault: "0xa37b3cf61ed8b3e6740271e7a517fecc15920781",
+        },
       },
       tokens: [
         {
           address: "0x000000000000000000000000000000000000800A",
-          symbol: "BNB",
+          symbol: "tMai",
           decimals: 18,
-          l1Address: "0x0000000000000000000000000000000000000000",
-          name: "Test BNB",
+          l1Address: "0xc42f240c256f5fb97346b9d69d10e2e1d77b2eba",
+          name: "tMai Token",
+          iconUrl: "/img/tmai.svg",
+        },
+        {
+          address: "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+          symbol: "WBNB",
+          decimals: 18,
+          l1Address: "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+          name: "Wrapped BNB",
           iconUrl: "/img/bnb.svg",
+        },
+        {
+          address: "0xCBE45965d9358A785971470F904aED8BE33EF5F8",
+          symbol: "MAC",
+          name: "MA Coin",
+          decimals: 18,
+          l1Address: "0x68da710056e0491B436c5ef6A1DFB246b2E882bC",
+          iconUrl: "/img/mac.svg",
         },
       ],
     },
